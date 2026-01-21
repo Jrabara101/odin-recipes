@@ -1,0 +1,208 @@
+:root {
+    --primary-green: #596D48;
+    --input-border: #E5E7EB;
+    --focus-blue: #3b82f6;
+    --error-red: #ef4444;
+}
+
+@font-face {
+    font-family: 'Norse-Bold';
+    src: url('https://raw.githubusercontent.com/TheOdinProject/curriculum/5f37d43908ef92499e95a9b90fc3cc291a95014c/html_css/project-sign-up-form/Norse-Bold.otf') format('opentype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    min-height: 100vh;
+    background: #f9fafb;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar Section */
+.sidebar {
+    width: 40%;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent dark background */
+    width: 100%;
+    padding: 1.5rem 0;
+    margin-top: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-img {
+    height: 60px;
+    filter: invert(1);
+    /* Make black logo white if needed, assuming the png is black */
+}
+
+/* If the logo is already white or needs specific handling */
+/* The provided odin-lined.png is black lines. In the design it looks white. */
+/* filter: invert(1) will turn black to white. */
+
+.logo-text {
+    font-family: 'Norse-Bold', sans-serif;
+    font-size: 5rem;
+    color: white;
+}
+
+.sidebar-footer {
+    color: white;
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+}
+
+/* Main Content Section */
+.main-content {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f9fafb;
+}
+
+.header-text {
+    padding: 2rem 4rem;
+    padding-bottom: 3rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+    line-height: 1.5;
+    background-color: #f0f0f0;
+    /* Slight gray background/offset for this section */
+    /* Wait, looking at design, the "This is not a real..." is on white/gray panel above form? 
+       Actually the design has 3 "stripes" effectively on the right:
+       1. Top text (white/gray)
+       2. Form area (white box shadow?) 
+       3. Button area.
+       Let's stick to a simpler layout first: Layout column. */
+    background: transparent;
+}
+
+.header-text p {
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+}
+
+form {
+    background-color: white;
+    padding: 2rem 4rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.form-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 2.5rem;
+    margin-bottom: 2rem;
+    max-width: 700px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #555;
+    text-transform: uppercase;
+}
+
+input {
+    padding: 0.6rem;
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+input:focus {
+    border-color: var(--focus-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Invalid state for password */
+input[type="password"]:invalid:not(:placeholder-shown) {
+    border-color: var(--error-red);
+}
+
+/* Just mimicking the requirement: "password inputs should have a red border if they contain an invalid password" 
+   Since we don't have JS validation yet, :invalid works with 'required' or pattern.
+   The prompt says "Wait for future lesson", but we can use :invalid + required. 
+*/
+
+.form-footer {
+    padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.create-account-btn {
+    background-color: var(--primary-green);
+    color: white;
+    padding: 0.8rem 2.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s;
+}
+
+.create-account-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.create-account-btn:active {
+    transform: translateY(0);
+}
+
+.login-link {
+    font-size: 0.9rem;
+}
+
+.login-link a {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 600;
+}
