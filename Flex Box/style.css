@@ -1,0 +1,257 @@
+:root {
+    --dark-bg: #1F2937;
+    --light-text: #F9FAF8;
+    --secondary-text: #E5E7EB;
+    --accent-blue: #3882F6;
+    --dark-heading: #1F2937;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header Section */
+.header {
+    background-color: var(--dark-bg);
+    padding: 1rem 0;
+}
+
+.header-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--light-text);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    font-size: 18px;
+    color: var(--secondary-text);
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    color: var(--light-text);
+    text-decoration: underline;
+}
+
+/* Hero Section */
+.hero {
+    background-color: var(--dark-bg);
+    padding: 5rem 0 6rem;
+}
+
+.hero-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.hero-text {
+    flex: 1;
+}
+
+.hero-text h1 {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--light-text);
+    line-height: 1.1;
+}
+
+.hero-text p {
+    font-size: 18px;
+    color: var(--secondary-text);
+    margin: 0.75rem 0 1.25rem;
+}
+
+.hero-image {
+    flex: 1;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+}
+
+.btn {
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--light-text);
+    background-color: var(--accent-blue);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* Information Section */
+.info {
+    padding: 3rem 1.5rem 6rem;
+    text-align: center;
+}
+
+.info-title {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--dark-heading);
+    margin-bottom: 3rem;
+}
+
+.cards {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 160px;
+}
+
+.card-illustration {
+    height: 160px;
+    border: 4px solid var(--accent-blue);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.card-illustration img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card p {
+    font-size: 16px;
+    color: #6B7280;
+    margin-top: 0.75rem;
+}
+
+/* Quote Section */
+.quote-section {
+    background-color: var(--secondary-text);
+    padding: 6rem 1.5rem;
+}
+
+.quote {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.quote-text {
+    font-size: 36px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--dark-heading);
+}
+
+.quote-author {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    font-style: normal;
+    color: var(--dark-heading);
+    text-align: right;
+    margin-top: 0.5rem;
+}
+
+/* Call to Action Section */
+.cta-section {
+    padding: 6rem 1.5rem;
+}
+
+.cta {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: var(--accent-blue);
+    border-radius: 8px;
+    padding: 3rem 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.cta-text h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--light-text);
+}
+
+.cta-text p {
+    font-size: 16px;
+    color: var(--secondary-text);
+}
+
+.btn-outline {
+    border: 2px solid var(--light-text);
+    flex-shrink: 0;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark-bg);
+    color: var(--secondary-text);
+    text-align: center;
+    padding: 2rem 1.5rem;
+    margin-top: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column;
+    }
+
+    .hero-text h1 {
+        font-size: 36px;
+    }
+
+    .quote-text {
+        font-size: 28px;
+    }
+
+    .cta {
+        padding: 2rem;
+        flex-direction: column;
+        text-align: center;
+    }
+}
