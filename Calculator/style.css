@@ -1,0 +1,104 @@
+body {
+  margin: 0;
+  padding: 40px 16px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background-color: #1f2430;
+  color: #e6e9ef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+#calculator {
+  width: 320px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: #272d3b;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+#display {
+  padding: 16px;
+  margin-bottom: 16px;
+  min-height: 72px;
+  border-radius: 10px;
+  background-color: #1a1f29;
+  text-align: right;
+  overflow-wrap: break-word;
+}
+
+#expression {
+  min-height: 20px;
+  font-size: 0.9rem;
+  color: #8b94a8;
+}
+
+#current {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+#keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.key {
+  padding: 16px 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  color: #e6e9ef;
+  background-color: #39414f;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.key:hover {
+  background-color: #454f60;
+}
+
+.key.pressed,
+.key:active {
+  background-color: #566175;
+}
+
+.operator {
+  background-color: #3c4a63;
+}
+
+.operator:hover {
+  background-color: #48597a;
+}
+
+.action {
+  background-color: #4a3b46;
+}
+
+.action:hover {
+  background-color: #5c4a57;
+}
+
+.equals {
+  background-color: #4f7d5e;
+}
+
+.equals:hover {
+  background-color: #5d9270;
+}
+
+.zero {
+  grid-column: span 2;
+}
