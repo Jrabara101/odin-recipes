@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | Odin Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Left Sidebar with Fern Background -->
+    <aside class="sidebar">
+      <div class="logo-banner">
+        <img src="odin-lined.png" alt="Odin Viking Logo" class="brand-icon">
+        <h1 class="brand-title">ODIN</h1>
+      </div>
+      <footer class="sidebar-credits">
+        Photo by <a href="https://unsplash.com/@haliewestphoto" target="_blank" rel="noopener noreferrer">Halie West</a> on <a href="https://unsplash.com/photos/25xggax4bSA" target="_blank" rel="noopener noreferrer">Unsplash</a>
+      </footer>
+    </aside>
+
+    <!-- Right Main Content -->
+    <main class="main-content">
+      <!-- Intro Section -->
+      <header class="intro-header">
+        <p class="intro-primary">
+          This is not a real online service! You know you need something like this in your life to help you realize your deepest dreams. Sign up <em>now</em> to get started.
+        </p>
+        <p class="intro-secondary">
+          You <em>know</em> you want to.
+        </p>
+      </header>
+
+      <!-- Form Section -->
+      <form class="signup-form" id="signup-form" action="#" method="post" novalidate>
+        <!-- White Form Card -->
+        <div class="form-card">
+          <h2 class="form-heading">Let's do this!</h2>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="first-name">FIRST NAME</label>
+              <input type="text" id="first-name" name="first_name" placeholder="Thor" required autocomplete="given-name">
+            </div>
+
+            <div class="form-group">
+              <label for="last-name">LAST NAME</label>
+              <input type="text" id="last-name" name="last_name" placeholder="Odinson" required autocomplete="family-name">
+            </div>
+
+            <div class="form-group">
+              <label for="email">EMAIL</label>
+              <input type="email" id="email" name="email" placeholder="thor@asgard.realm" required autocomplete="email">
+            </div>
+
+            <div class="form-group">
+              <label for="phone">PHONE NUMBER</label>
+              <input type="tel" id="phone" name="phone" placeholder="123-456-7890" autocomplete="tel">
+            </div>
+
+            <div class="form-group">
+              <label for="password">PASSWORD</label>
+              <input type="password" id="password" name="password" required minlength="8" autocomplete="new-password">
+              <span class="password-error-message" id="password-error-msg">* Passwords do not match</span>
+            </div>
+
+            <div class="form-group">
+              <label for="confirm-password">CONFIRM PASSWORD</label>
+              <input type="password" id="confirm-password" name="confirm_password" required minlength="8" autocomplete="new-password">
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions (Button & Login Link) -->
+        <div class="form-actions">
+          <button type="submit" class="submit-btn" id="submit-btn">Create Account</button>
+          <p class="login-prompt">
+            Already have an account? <a href="#" class="login-link">Log in</a>
+          </p>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    // Password match validation
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    const errorMsg = document.getElementById('password-error-msg');
+    const form = document.getElementById('signup-form');
+
+    function checkPasswordMatch() {
+      const pass = passwordInput.value;
+      const confirmPass = confirmPasswordInput.value;
+
+      // Only check if user has started typing in both or either field
+      if (pass !== '' && confirmPass !== '') {
+        if (pass !== confirmPass) {
+          passwordInput.classList.add('error');
+          confirmPasswordInput.classList.add('error');
+          errorMsg.style.display = 'block';
+          return false;
+        } else {
+          passwordInput.classList.remove('error');
+          confirmPasswordInput.classList.remove('error');
+          errorMsg.style.display = 'none';
+          return true;
+        }
+      } else {
+        // If empty, hide error by default
+        passwordInput.classList.remove('error');
+        confirmPasswordInput.classList.remove('error');
+        errorMsg.style.display = 'none';
+        return true;
+      }
+    }
+
+    passwordInput.addEventListener('input', checkPasswordMatch);
+    confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+
+    form.addEventListener('submit', (e) => {
+      const isValid = checkPasswordMatch();
+      if (!passwordInput.value || !confirmPasswordInput.value || !isValid) {
+        e.preventDefault();
+        if (passwordInput.value !== confirmPasswordInput.value) {
+          passwordInput.classList.add('error');
+          confirmPasswordInput.classList.add('error');
+          errorMsg.style.display = 'block';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

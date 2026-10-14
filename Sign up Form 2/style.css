@@ -1,0 +1,284 @@
+:root {
+  --primary-green: #596D48;
+  --primary-green-hover: #485a3a;
+  --input-border: #E5E7EB;
+  --focus-blue: #2563eb;
+  --error-red: #ef4444;
+  --text-dark: #1e293b;
+  --text-label: #475569;
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+}
+
+@font-face {
+  font-family: 'Norse-Bold';
+  src: url('./Norse-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-dark);
+  background-color: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ============================================================
+   LEFT SIDEBAR (FERN IMAGE + ODIN LOGO BANNER + ATTRIBUTION)
+   ============================================================ */
+.sidebar {
+  width: 36%;
+  min-width: 320px;
+  max-width: 440px;
+  background-image: url('background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.logo-banner {
+  margin-top: 18vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  width: 100%;
+  padding: 1.15rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  height: 80px;
+  width: auto;
+  user-select: none;
+}
+
+.brand-title {
+  font-family: 'Norse-Bold', sans-serif;
+  font-size: 5rem;
+  color: #ffffff;
+  letter-spacing: 2px;
+  line-height: 1;
+  font-weight: bold;
+  user-select: none;
+}
+
+.sidebar-credits {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
+}
+
+.sidebar-credits a {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.15s ease;
+}
+
+.sidebar-credits a:hover {
+  opacity: 0.8;
+}
+
+/* ============================================================
+   RIGHT MAIN CONTENT (HEADER + FORM CARD + ACTIONS)
+   ============================================================ */
+.main-content {
+  flex: 1;
+  background-color: var(--bg-page);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Intro Header Section */
+.intro-header {
+  padding: 2.25rem 3.5rem 1.6rem 3.5rem;
+  max-width: 700px;
+}
+
+.intro-primary {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text-dark);
+  margin-bottom: 1.4rem;
+}
+
+.intro-secondary {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text-dark);
+}
+
+.intro-primary em,
+.intro-secondary em {
+  font-style: italic;
+}
+
+/* Form Container */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* White Form Card (Stretches across page width with top/bottom shadow) */
+.form-card {
+  background-color: var(--bg-card);
+  padding: 1.75rem 3.5rem;
+  box-shadow: 0 4px 10px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  width: 100%;
+}
+
+.form-heading {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1.35rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 245px);
+  gap: 1.15rem 2.8rem;
+  max-width: 600px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.form-group label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-label);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.form-group input {
+  width: 100%;
+  height: 33px;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text-dark);
+  background-color: #ffffff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Selected input: Blue border + subtle box-shadow */
+.form-group input:focus {
+  border-color: var(--focus-blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* Invalid password / input state: Red border */
+.form-group input:user-invalid,
+.form-group input.error {
+  border-color: var(--error-red);
+}
+
+.form-group input.error:focus,
+.form-group input:user-invalid:focus {
+  border-color: var(--error-red);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.password-error-message {
+  display: none;
+  color: var(--error-red);
+  font-size: 0.72rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+/* ============================================================
+   FORM ACTIONS (CREATE ACCOUNT BUTTON & LOG IN LINK)
+   ============================================================ */
+.form-actions {
+  padding: 2rem 3.5rem 1.5rem 3.5rem;
+}
+
+.submit-btn {
+  background-color: var(--primary-green);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.85rem 2.85rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.18s ease, transform 0.1s ease, box-shadow 0.18s ease;
+}
+
+.submit-btn:hover {
+  background-color: var(--primary-green-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.2), 0 3px 6px -3px rgba(0, 0, 0, 0.12);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.login-prompt {
+  margin-top: 1.45rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.login-link {
+  color: var(--primary-green);
+  font-weight: 700;
+  text-decoration: none;
+  transition: text-decoration 0.15s ease;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
