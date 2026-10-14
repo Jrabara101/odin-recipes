@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#E0F2FE"/>
+  <!-- Dog silhouette / cute illustration in terracotta/red like reference -->
+  <g transform="translate(18, 25)">
+    <!-- Body -->
+    <path d="M12,30 Q16,22 28,24 L48,24 Q56,24 58,32 L58,38 L54,42 L52,36 L24,36 L22,42 L16,42 L18,34 Z" fill="#EF4444"/>
+    <!-- Head & Snout -->
+    <path d="M12,28 L8,18 Q6,12 12,8 Q18,6 20,12 L22,18 Z" fill="#EF4444"/>
+    <!-- Floppy Ear -->
+    <path d="M18,10 Q24,12 22,22 Q18,24 16,18 Z" fill="#DC2626"/>
+    <!-- Eye & Nose -->
+    <circle cx="10" cy="12" r="1.5" fill="#1E293B"/>
+    <circle cx="6" cy="15" r="1.5" fill="#1E293B"/>
+    <!-- Tail -->
+    <path d="M52,26 Q60,18 64,12" stroke="#EF4444" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <!-- Legs -->
+    <rect x="18" y="34" width="5" height="16" rx="2" fill="#EF4444"/>
+    <rect x="26" y="34" width="5" height="14" rx="2" fill="#DC2626"/>
+    <rect x="46" y="34" width="5" height="16" rx="2" fill="#EF4444"/>
+    <rect x="52" y="34" width="5" height="14" rx="2" fill="#DC2626"/>
+  </g>
+</svg>

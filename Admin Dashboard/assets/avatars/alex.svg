@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#E2E8F0"/>
+  <!-- Penguin Body -->
+  <ellipse cx="50" cy="58" rx="26" ry="28" fill="#1E293B"/>
+  <!-- White Belly -->
+  <ellipse cx="50" cy="62" rx="18" ry="20" fill="#FFFFFF"/>
+  <!-- Pink Earmuffs / Beanie -->
+  <ellipse cx="50" cy="30" rx="20" ry="12" fill="#F43F5E"/>
+  <circle cx="50" cy="18" r="6" fill="#F43F5E"/>
+  <rect x="25" y="32" width="7" height="14" rx="3.5" fill="#FB7185"/>
+  <rect x="68" y="32" width="7" height="14" rx="3.5" fill="#FB7185"/>
+  <!-- Eyes -->
+  <circle cx="43" cy="42" r="3" fill="#1E293B"/>
+  <circle cx="42" cy="41" r="1" fill="#FFFFFF"/>
+  <circle cx="57" cy="42" r="3" fill="#1E293B"/>
+  <circle cx="56" cy="41" r="1" fill="#FFFFFF"/>
+  <!-- Beak -->
+  <polygon points="50,45 44,51 56,51" fill="#F59E0B"/>
+  <!-- Cheeks -->
+  <circle cx="37" cy="47" r="3" fill="#FECDD3" opacity="0.8"/>
+  <circle cx="63" cy="47" r="3" fill="#FECDD3" opacity="0.8"/>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#94A3B8"/>
+  <g transform="translate(18, 14)">
+    <!-- Shoulders -->
+    <path d="M6,62 Q32,48 58,62 L58,72 L6,72 Z" fill="#1E3A8A"/>
+    <!-- Head -->
+    <ellipse cx="32" cy="32" rx="22" ry="26" fill="#DC2626"/>
+    <!-- Webbing lines -->
+    <path d="M32,6 L32,58" stroke="#1E293B" stroke-width="1.2" opacity="0.6"/>
+    <path d="M10,32 L54,32" stroke="#1E293B" stroke-width="1.2" opacity="0.6"/>
+    <path d="M15,16 Q32,25 49,16" fill="none" stroke="#1E293B" stroke-width="1.2" opacity="0.6"/>
+    <path d="M11,46 Q32,38 53,46" fill="none" stroke="#1E293B" stroke-width="1.2" opacity="0.6"/>
+    <!-- Eyes -->
+    <path d="M14,24 Q24,20 28,32 Q22,34 16,30 Z" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M50,24 Q40,20 36,32 Q42,34 48,30 Z" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.5" stroke-linejoin="round"/>
+  </g>
+</svg>
