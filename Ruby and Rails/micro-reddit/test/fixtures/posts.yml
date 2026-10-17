@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: First Fixture Post
+  url: https://example.com/one
+  body: This is post one
+  user: one
+
+two:
+  title: Second Fixture Post
+  url: https://example.com/two
+  body: This is post two
+  user: two

@@ -1,0 +1,35 @@
+# Rails SQLite databases
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+
+# Rails logs, temp, and storage
+/**/log/*
+!/**/log/.keep
+/**/tmp/*
+!/**/tmp/.keep
+/**/storage/*
+!/**/storage/.keep
+
+# Rails credentials and secrets
+config/master.key
+config/credentials/*.key
+**/config/master.key
+**/config/credentials/*.key
+
+# Environment and secrets
+.env
+.env*.local
+
+# Node & JS dependencies
+node_modules/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*~
+.vscode/
+.idea/

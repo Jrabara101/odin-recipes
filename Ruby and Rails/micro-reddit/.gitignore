@@ -1,0 +1,42 @@
+# Ignore SQLite databases
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/db/*.sqlite3-wal
+/db/*.sqlite3-shm
+
+# Ignore all logfiles and tempfiles
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore pidfiles, but keep the directory
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/
+!/storage/.keep
+
+/tmp/storage/*
+!/tmp/storage/
+!/tmp/storage/.keep
+
+# Ignore master key for decrypting credentials and more
+/config/master.key
+/config/credentials/*.key
+
+# Ignore application system test screenshots
+/test/system/screenshots
+
+# Ignore local env files
+.env*.local
+.env
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*~
