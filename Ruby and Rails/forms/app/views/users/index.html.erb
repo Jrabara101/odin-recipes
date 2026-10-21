@@ -1,0 +1,53 @@
+<div class="page-container">
+  <header class="app-header">
+    <div class="badge">The Odin Project</div>
+    <h1>Re-Former: Users Directory</h1>
+    <p class="subtitle">Quickly verify created users and test editing with RESTful Rails forms.</p>
+  </header>
+
+  <% if flash[:notice] %>
+    <div class="flash-notice">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>All Users (<%= @users.count %>)</h2>
+      <%= link_to "+ Create New User", new_user_path, class: "btn btn-primary btn-sm" %>
+    </div>
+
+    <% if @users.empty? %>
+      <div class="empty-state">
+        <p>No users created yet. Visit the <%= link_to "New User Form", new_user_path %> to create your first user!</p>
+      </div>
+    <% else %>
+      <div class="table-responsive">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Created At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><code>#<%= user.id %></code></td>
+                <td><strong><%= user.username %></strong></td>
+                <td><%= user.email %></td>
+                <td><%= user.created_at.strftime("%b %d, %Y %H:%M") %></td>
+                <td>
+                  <%= link_to "Edit User", edit_user_path(user), class: "btn btn-outline btn-xs" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<div class="page-container">
+  <header class="app-header">
+    <div class="badge">The Odin Project</div>
+    <h1>Re-Former: Edit User #<%= @user.id %></h1>
+    <p class="subtitle">Inspecting Rails RESTful form updates, hidden <code>_method="patch"</code>, and validation errors.</p>
+  </header>
+
+  <% if flash[:notice] %>
+    <div class="flash-notice">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <% if @user.errors.any? %>
+    <div id="error_explanation" class="error-container">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- ================================================================= -->
+  <!-- ACTIVE: Railsy Form using #form_with helper                       -->
+  <!-- ================================================================= -->
+  <div class="card form-card">
+    <div class="card-header">
+      <h2>Edit User with <code>form_with</code></h2>
+      <span class="tag tag-edit">Existing Record (PATCH)</span>
+    </div>
+
+    <%= form_with model: @user, class: "user-form" do |form| %>
+      <div class="form-group">
+        <%= form.label :username, "Your user name here" %>
+        <%= form.text_field :username, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :email, "Email Address" %>
+        <%= form.email_field :email, placeholder: "example@example.com", class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :password, "Password" %>
+        <%= form.password_field :password, placeholder: "Enter new password (min 6 chars)", class: "form-control" %>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "Update User", class: "btn btn-primary" %>
+        <%= link_to "New User Form", new_user_path, class: "btn btn-secondary" %>
+        <%= link_to "All Users", users_path, class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- ODIN PROJECT CURRICULUM ARCHIVE: BARE-METAL HTML EDIT FORM        -->
+  <!-- ================================================================= -->
+  <!--
+  === BARE METAL HTML EDIT FORM WITH HIDDEN _method PATCH ===
+  When editing a record without Rails helpers, browsers only natively support GET and POST.
+  Rails solves this by listening for a hidden parameter named "_method" with value "patch" (or "put").
+  
+  <form action="/users/<%= @user.id %>" method="post" accept-charset="UTF-8">
+    <input type="hidden" name="_method" value="patch">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+    <div>
+      <label for="edit_username">Username:</label>
+      <input type="text" id="edit_username" name="user[username]" value="<%= @user.username %>">
+    </div>
+
+    <div>
+      <label for="edit_email">Email:</label>
+      <input type="email" id="edit_email" name="user[email]" value="<%= @user.email %>">
+    </div>
+
+    <div>
+      <label for="edit_password">Password:</label>
+      <input type="password" id="edit_password" name="user[password]">
+    </div>
+
+    <input type="submit" value="Update User (Bare HTML)">
+  </form>
+  -->
+</div>
