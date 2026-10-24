@@ -1,0 +1,11 @@
+<div style="max-width: 650px; margin: 0 auto 1.5rem;">
+  <%= link_to "&larr; Back to Event".html_safe, event_path(@event), class: "btn btn-outline btn-sm" %>
+  <h1 style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 800; margin: 1rem 0 0.5rem;">
+    Edit Event Details
+  </h1>
+  <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">
+    Update the date, location, description, or privacy settings for your event.
+  </p>
+</div>
+
+<%= render "form", event: @event %>

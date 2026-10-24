@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Private Events — Exclusive Gathering & RSVP Platform" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <!-- Top Navigation Header -->
+    <header class="site-header">
+      <div class="container">
+        <nav class="navbar">
+          <%= link_to root_path, class: "brand-link" do %>
+            <div class="brand-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <span>Private<span style="color: #818cf8;">Events</span></span>
+          <% end %>
+
+          <ul class="nav-links">
+            <li><%= link_to "Explore Events", events_path, class: "nav-link" %></li>
+            <li><%= link_to "Community", users_path, class: "nav-link" %></li>
+
+            <% if user_signed_in? %>
+              <li>
+                <%= link_to new_event_path, class: "btn btn-primary btn-sm" do %>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  <span>Host Event</span>
+                <% end %>
+              </li>
+              <li class="nav-user">
+                <%= link_to user_path(current_user), class: "nav-link" do %>
+                  <strong><%= current_user.name.presence || current_user.username %></strong>
+                <% end %>
+                <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-outline btn-sm" %>
+              </li>
+            <% else %>
+              <li><%= link_to "Sign In", new_user_session_path, class: "btn btn-secondary btn-sm" %></li>
+              <li><%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary btn-sm" %></li>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Flash Notifications -->
+    <div class="container flash-container">
+      <% if notice.present? %>
+        <div class="flash-message flash-notice">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <span><%= notice %></span>
+        </div>
+      <% end %>
+
+      <% if alert.present? %>
+        <div class="flash-message flash-alert">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span><%= alert %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Main Body Content -->
+    <main class="main-content">
+      <div class="container">
+        <%= yield %>
+      </div>
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <p>Private Events &copy; 2026 &bull; The Odin Project: Ruby on Rails Course</p>
+      </div>
+    </footer>
+  </body>
+</html>

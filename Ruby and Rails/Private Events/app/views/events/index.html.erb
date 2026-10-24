@@ -1,0 +1,76 @@
+<!-- Hero Banner -->
+<section class="hero-banner">
+  <h1 class="hero-title">
+    Discover & Host <span class="hero-gradient">Exclusive Gatherings</span>
+  </h1>
+  <p class="hero-subtitle">
+    Create private invitations, coordinate guest lists, and RSVP to exciting parties, dinners, and events with ActiveRecord-powered management.
+  </p>
+  <div class="hero-cta">
+    <%= link_to "Host New Event", new_event_path, class: "btn btn-primary" %>
+    <% unless user_signed_in? %>
+      <%= link_to "Create Account", new_user_registration_path, class: "btn btn-secondary" %>
+    <% end %>
+  </div>
+</section>
+
+<!-- Upcoming Events Section -->
+<section>
+  <div class="section-header">
+    <h2 class="section-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #6366f1;">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 14 14"></polyline>
+      </svg>
+      <span>Upcoming Events</span>
+      <span class="section-badge"><%= @upcoming_events.count %> Scheduled</span>
+    </h2>
+    <%= link_to "+ Host an Event", new_event_path, class: "btn btn-secondary btn-sm" %>
+  </div>
+
+  <% if @upcoming_events.any? %>
+    <div class="events-grid">
+      <% @upcoming_events.each do |event| %>
+        <%= render "event_card", event: event %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <div class="empty-state-icon">📅</div>
+      <h3>No Upcoming Events Yet</h3>
+      <p>Be the first to create an upcoming party or social event!</p>
+      <div style="margin-top: 1.25rem;">
+        <%= link_to "Create the First Event", new_event_path, class: "btn btn-primary btn-sm" %>
+      </div>
+    </div>
+  <% end %>
+</section>
+
+<!-- Past Events Section -->
+<section style="margin-top: 2rem;">
+  <div class="section-header">
+    <h2 class="section-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #9ca3af;">
+        <path d="M3 3v5h5"></path>
+        <path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"></path>
+        <path d="M12 7v5l4 2"></path>
+      </svg>
+      <span>Past Events</span>
+      <span class="section-badge"><%= @past_events.count %> Completed</span>
+    </h2>
+  </div>
+
+  <% if @past_events.any? %>
+    <div class="events-grid">
+      <% @past_events.each do |event| %>
+        <%= render "event_card", event: event %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <div class="empty-state-icon">⏳</div>
+      <h3>No Past Events Archive</h3>
+      <p>Completed events will automatically appear here once their dates pass.</p>
+    </div>
+  <% end %>
+</section>

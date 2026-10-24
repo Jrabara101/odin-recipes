@@ -1,0 +1,45 @@
+<div class="section-header" style="margin-bottom: 2rem;">
+  <div>
+    <h1 class="section-title">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #6366f1;">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <span>Community Members</span>
+      <span class="section-badge"><%= @users.count %> Active Members</span>
+    </h1>
+    <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem;">
+      Connect with event hosts and fellow attendees across the platform.
+    </p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+  <% @users.each do |user| %>
+    <div class="detail-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2rem 1.5rem;">
+      <div class="profile-avatar" style="width: 4rem; height: 4rem; font-size: 1.5rem; margin-bottom: 1rem;">
+        <%= (user.name.presence || user.username).first.upcase %>
+      </div>
+
+      <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem;">
+        <%= link_to user.name.presence || user.username, user_path(user), style: "color: inherit;" %>
+      </h3>
+      <p style="color: #818cf8; font-size: 0.9rem; font-weight: 500; margin-bottom: 1rem;">
+        @<%= user.username %>
+      </p>
+
+      <div style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
+        <div>
+          <strong style="color: var(--text-main);"><%= user.created_events.count %></strong> Hosted
+        </div>
+        <div>
+          <strong style="color: var(--text-main);"><%= user.attended_events.count %></strong> Attended
+        </div>
+      </div>
+
+      <%= link_to "View Profile & Events &rarr;".html_safe, user_path(user), class: "btn btn-secondary btn-sm", style: "width: 100%;" %>
+    </div>
+  <% end %>
+</div>
