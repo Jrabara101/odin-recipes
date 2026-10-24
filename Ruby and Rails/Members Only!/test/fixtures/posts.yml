@@ -1,0 +1,9 @@
+one:
+  title: "First Secret Dispatch"
+  body: "This is a confidential message for test purposes."
+  user: one
+
+two:
+  title: "Second Secret Dispatch"
+  body: "Another secret story recorded in the archives."
+  user: two

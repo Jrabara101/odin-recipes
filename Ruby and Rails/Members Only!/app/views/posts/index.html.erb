@@ -1,0 +1,154 @@
+<% content_for :title, "Clubhouse Lounge | Members Only" %>
+
+<div class="container">
+  <!-- Hero Section with Dynamic Authentication State -->
+  <section class="hero-card">
+    <% if user_signed_in? %>
+      <div class="hero-badge badge-authenticated">
+        <span>🛡️ Security Level: Inner Circle Clearance</span>
+      </div>
+      <h1 class="hero-title">Welcome back, <%= current_user.name %></h1>
+      <p class="hero-lead">
+        You are inside the exclusive clubhouse. All whisper author identities are unlocked and visible exclusively to you and your fellow members.
+      </p>
+      <div class="hero-actions">
+        <%= link_to new_post_path, class: "btn btn-primary", id: "hero-new-post-btn" do %>
+          <span>✍️ Whisper a New Secret</span>
+        <% end %>
+        <%= link_to edit_user_registration_path, class: "btn btn-secondary", id: "hero-account-btn" do %>
+          <span>⚙️ Manage Membership</span>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="hero-badge badge-guest">
+        <span>🔒 Guest View: Author Cipher Active</span>
+      </div>
+      <h1 class="hero-title">The Secret Clubhouse</h1>
+      <p class="hero-lead">
+        Welcome to our exclusive society. You can read the stories and whispers shared below, but their true authors remain shielded in mystery until you join and enter the clubhouse.
+      </p>
+      <div class="hero-actions">
+        <%= link_to new_user_session_path, class: "btn btn-primary", id: "hero-sign-in-btn" do %>
+          <span>🔑 Sign In to Reveal Authors</span>
+        <% end %>
+        <%= link_to new_user_registration_path, class: "btn btn-secondary", id: "hero-sign-up-btn" do %>
+          <span>✨ Join the Clubhouse</span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Security Insight Bar -->
+    <div class="security-status-bar">
+      <div class="status-stat">
+        <div class="status-icon"><%= user_signed_in? ? "🔓" : "🔐" %></div>
+        <div class="status-info">
+          <h4>Author Visibility</h4>
+          <p><%= user_signed_in? ? "Unlocked (Visible)" : "Masked (Hidden)" %></p>
+        </div>
+      </div>
+
+      <div class="status-stat">
+        <div class="status-icon">📜</div>
+        <div class="status-info">
+          <h4>Total Whispers</h4>
+          <p><%= @posts.size %> Secret <%= 'Post'.pluralize(@posts.size) %></p>
+        </div>
+      </div>
+
+      <div class="status-stat">
+        <div class="status-icon">👥</div>
+        <div class="status-info">
+          <h4>Clubhouse Registry</h4>
+          <p><%= User.count %> Registered <%= 'Member'.pluralize(User.count) %></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feed Header -->
+  <section class="section-header">
+    <h2>
+      <span>Clubhouse Whispers</span>
+      <span class="post-count-badge"><%= @posts.size %> <%= 'entry'.pluralize(@posts.size) %></span>
+    </h2>
+
+    <% if user_signed_in? %>
+      <%= link_to "+ New Whisper", new_post_path, class: "btn btn-outline-gold btn-sm", id: "quick-new-post-btn" %>
+    <% end %>
+  </section>
+
+  <!-- Posts Feed -->
+  <div class="posts-feed" id="posts-container">
+    <% if @posts.any? %>
+      <% @posts.each do |post| %>
+        <article class="post-card" id="post-<%= post.id %>">
+          <header class="post-header">
+            <div class="author-meta">
+              <% if user_signed_in? %>
+                <!-- AUTHENTICATED: Display actual author avatar and name -->
+                <div class="author-avatar revealed" title="Verified Author">
+                  <%= post.user.name.present? ? post.user.name[0].upcase : "M" %>
+                </div>
+                <div class="author-details">
+                  <div class="author-name-row">
+                    <span class="author-name" id="author-name-<%= post.id %>"><%= post.user.name %></span>
+                    <span class="member-pill revealed-pill">✓ Member</span>
+                  </div>
+                  <time class="post-time" datetime="<%= post.created_at.iso8601 %>">
+                    <%= time_ago_in_words(post.created_at) %> ago
+                  </time>
+                </div>
+              <% else %>
+                <!-- GUEST: Author identity masked -->
+                <div class="author-avatar hidden-avatar" title="Author identity encrypted">
+                  🔒
+                </div>
+                <div class="author-details">
+                  <div class="author-name-row">
+                    <span class="author-name unrevealed" id="author-name-<%= post.id %>">Anonymous Member</span>
+                    <span class="member-pill locked-pill">🔒 Hidden</span>
+                  </div>
+                  <time class="post-time" datetime="<%= post.created_at.iso8601 %>">
+                    <%= time_ago_in_words(post.created_at) %> ago
+                  </time>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="post-id-badge">
+              #WHISPER-<%= sprintf('%04d', post.id) %>
+            </div>
+          </header>
+
+          <h3 class="post-title"><%= post.title %></h3>
+          <div class="post-body">
+            <%= simple_format(post.body) %>
+          </div>
+
+          <footer class="post-footer">
+            <span class="secrecy-tag">
+              <% if user_signed_in? %>
+                <span>👁️ Identity Decrypted for You</span>
+              <% else %>
+                <span>🔒 <%= link_to "Sign in to reveal author", new_user_session_path, style: "color: var(--gold-400); text-decoration: none;" %></span>
+              <% end %>
+            </span>
+            <span>Clubhouse Vault</span>
+          </footer>
+        </article>
+      <% end %>
+    <% else %>
+      <!-- Empty State -->
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <h3>The Vault is Quiet</h3>
+        <p>No whispers have been shared with the clubhouse yet. Be the first member to step forward and write one!</p>
+        <% if user_signed_in? %>
+          <%= link_to "Write the First Whisper", new_post_path, class: "btn btn-primary" %>
+        <% else %>
+          <%= link_to "Sign In to Write a Whisper", new_user_session_path, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

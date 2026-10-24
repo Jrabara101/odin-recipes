@@ -1,0 +1,37 @@
+<% content_for :title, "Recover Credentials | Members Only" %>
+
+<div class="container">
+  <div class="auth-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <div class="form-icon">🔐</div>
+        <h2>Forgotten Key?</h2>
+        <p>Submit your registered email address and we'll dispatch password recovery instructions.</p>
+      </div>
+
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, id: "forgot-password-form" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="form-group">
+          <%= f.label :email, "Email Address", class: "form-label" %>
+          <%= f.email_field :email, 
+                            class: "form-input", 
+                            id: "user_email", 
+                            placeholder: "member@clubhouse.org", 
+                            autofocus: true, 
+                            autocomplete: "email", 
+                            required: true %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.submit "Send Recovery Instructions", class: "btn btn-primary btn-lg", id: "reset-submit-btn" %>
+        </div>
+      <% end %>
+
+      <div class="auth-footer">
+        <%= render "devise/shared/links" %>
+        <%= link_to "← Return to Lounge", root_path %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<% content_for :title, "Join the Clubhouse | Members Only" %>
+
+<div class="container">
+  <div class="auth-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <div class="form-icon">✨</div>
+        <h2>Join the Clubhouse</h2>
+        <p>Create your credentials to unlock author identities and whisper your own confidential posts.</p>
+      </div>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { id: "signup-form" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="form-group">
+          <%= f.label :name, "Your Alias or Name", class: "form-label" %>
+          <%= f.text_field :name, 
+                           class: "form-input", 
+                           id: "user_name",
+                           placeholder: "e.g., Detective Vance or Lady Genevieve", 
+                           autofocus: true, 
+                           required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email, "Email Address", class: "form-label" %>
+          <%= f.email_field :email, 
+                            class: "form-input", 
+                            id: "user_email",
+                            placeholder: "member@clubhouse.org", 
+                            autocomplete: "email", 
+                            required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password, class: "form-label" do %>
+            Password
+            <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %>
+          <% end %>
+          <%= f.password_field :password, 
+                               class: "form-input", 
+                               id: "user_password",
+                               placeholder: "••••••••", 
+                               autocomplete: "new-password", 
+                               required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
+          <%= f.password_field :password_confirmation, 
+                               class: "form-input", 
+                               id: "user_password_confirmation",
+                               placeholder: "••••••••", 
+                               autocomplete: "new-password", 
+                               required: true %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.submit "Become a Member", class: "btn btn-primary btn-lg", id: "signup-submit-btn" %>
+        </div>
+      <% end %>
+
+      <div class="auth-footer">
+        <%= render "devise/shared/links" %>
+        <%= link_to "← Return to Lounge", root_path %>
+      </div>
+    </div>
+  </div>
+</div>

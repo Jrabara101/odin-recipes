@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%= content_for(:title) || "Members Only | The Exclusive Secret Clubhouse" %></title>
+    <meta name="description" content="An exclusive clubhouse where members share secret posts. Author identities are revealed exclusively to authenticated members.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <nav class="navbar" aria-label="Main Navigation">
+          <%= link_to root_path, class: "brand-link", id: "clubhouse-home-link" do %>
+            <div class="brand-crest">🗝️</div>
+            <div class="brand-title">
+              <span class="brand-name">MEMBERS ONLY</span>
+              <span class="brand-subtitle">The Secret Clubhouse</span>
+            </div>
+          <% end %>
+
+          <div class="nav-actions">
+            <% if user_signed_in? %>
+              <div class="user-menu">
+                <div class="user-badge" id="current-user-badge" title="Authenticated Clubhouse Member">
+                  <span class="avatar-mini"><%= current_user.name.present? ? current_user.name[0].upcase : "M" %></span>
+                  <span>Member: <strong><%= current_user.name %></strong></span>
+                </div>
+
+                <%= link_to new_post_path, class: "btn btn-primary btn-sm", id: "nav-new-post-btn" do %>
+                  <span>✍️ New Secret</span>
+                <% end %>
+
+                <%= link_to edit_user_registration_path, class: "btn btn-secondary btn-sm", id: "nav-profile-btn" do %>
+                  <span>⚙️ Account</span>
+                <% end %>
+
+                <%= button_to destroy_user_session_path, method: :delete, class: "btn btn-danger btn-sm", id: "nav-sign-out-btn", data: { turbo: false } do %>
+                  <span>Sign Out</span>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="user-menu">
+                <div class="user-badge" title="You are currently viewing as a guest">
+                  <span>🔒 Guest Mode</span>
+                </div>
+
+                <%= link_to new_user_session_path, class: "btn btn-secondary btn-sm", id: "nav-sign-in-btn" do %>
+                  <span>Sign In</span>
+                <% end %>
+
+                <%= link_to new_user_registration_path, class: "btn btn-primary btn-sm", id: "nav-sign-up-btn" do %>
+                  <span>Join Club</span>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container">
+      <% if notice.present? || alert.present? %>
+        <div class="flash-container">
+          <% if notice.present? %>
+            <div class="flash-message flash-notice" role="status">
+              <span>✅</span>
+              <span><%= notice %></span>
+            </div>
+          <% end %>
+          <% if alert.present? %>
+            <div class="flash-message flash-alert" role="alert">
+              <span>⚠️</span>
+              <span><%= alert %></span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <main class="main-content">
+      <%= yield %>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div>
+            <strong>Members Only</strong> &mdash; Odin Project Ruby on Rails Authentication System
+          </div>
+          <div class="footer-links">
+            <%= link_to "Lounge Feed", root_path %>
+            <% if user_signed_in? %>
+              <%= link_to "Share Whisper", new_post_path %>
+              <%= link_to "My Account", edit_user_registration_path %>
+            <% else %>
+              <%= link_to "Member Sign In", new_user_session_path %>
+              <%= link_to "Join the Club", new_user_registration_path %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

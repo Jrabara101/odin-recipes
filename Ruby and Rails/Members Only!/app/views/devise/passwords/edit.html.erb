@@ -1,0 +1,42 @@
+<% content_for :title, "Reset Password | Members Only" %>
+
+<div class="container">
+  <div class="auth-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <div class="form-icon">🔑</div>
+        <h2>Change Your Password</h2>
+        <p>Set a new secure password for your clubhouse account.</p>
+      </div>
+
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, id: "change-password-form" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <%= f.hidden_field :reset_password_token %>
+
+        <div class="form-group">
+          <%= f.label :password, class: "form-label" do %>
+            New Password
+            <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %>
+          <% end %>
+          <%= f.password_field :password, class: "form-input", id: "user_password", autofocus: true, autocomplete: "new-password", required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password_confirmation, "Confirm New Password", class: "form-label" %>
+          <%= f.password_field :password_confirmation, class: "form-input", id: "user_password_confirmation", autocomplete: "new-password", required: true %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.submit "Update Password & Sign In", class: "btn btn-primary btn-lg", id: "submit-new-password-btn" %>
+        </div>
+      <% end %>
+
+      <div class="auth-footer">
+        <%= render "devise/shared/links" %>
+        <%= link_to "← Return to Lounge", root_path %>
+      </div>
+    </div>
+  </div>
+</div>

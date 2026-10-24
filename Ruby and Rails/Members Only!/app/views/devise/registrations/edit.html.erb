@@ -1,0 +1,72 @@
+<% content_for :title, "Member Account Settings | Members Only" %>
+
+<div class="container">
+  <div class="auth-wrapper" style="max-width: 560px;">
+    <div class="form-card">
+      <div class="form-header">
+        <div class="form-icon">⚙️</div>
+        <h2>Member Account Profile</h2>
+        <p>Manage your alias, credentials, and clubhouse security clearance.</p>
+      </div>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: "edit-profile-form" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="form-group">
+          <%= f.label :name, "Your Alias or Name", class: "form-label" %>
+          <%= f.text_field :name, class: "form-input", id: "user_name", required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email, "Email Address", class: "form-label" %>
+          <%= f.email_field :email, class: "form-input", id: "user_email", autocomplete: "email", required: true %>
+        </div>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div class="author-disclosure-box" style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); color: #fde68a;">
+            ⏳ Awaiting email verification for: <%= resource.unconfirmed_email %>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= f.label :password, class: "form-label" do %>
+            New Password <em>(leave blank if you don't wish to change)</em>
+          <% end %>
+          <%= f.password_field :password, class: "form-input", id: "user_password", autocomplete: "new-password", placeholder: "New password..." %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password_confirmation, "Confirm New Password", class: "form-label" %>
+          <%= f.password_field :password_confirmation, class: "form-input", id: "user_password_confirmation", autocomplete: "new-password", placeholder: "Repeat new password..." %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :current_password, class: "form-label" do %>
+            Current Password <em>(required to verify security changes)</em>
+          <% end %>
+          <%= f.password_field :current_password, class: "form-input", id: "user_current_password", autocomplete: "current-password", required: true %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.submit "Save Security Profile", class: "btn btn-primary btn-lg", id: "update-profile-btn" %>
+        </div>
+      <% end %>
+
+      <div style="margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-subtle);">
+        <h3 style="font-size: 1.1rem; color: #f87171; margin-bottom: 8px;">Relinquish Membership</h3>
+        <p style="color: var(--text-secondary); font-size: 0.86rem; margin-bottom: 16px;">
+          Resigning from the clubhouse deletes your account and confidential profile.
+        </p>
+        <%= button_to "Resign & Cancel Membership", 
+                      registration_path(resource_name), 
+                      data: { confirm: "Are you sure you want to surrender your membership?", turbo_confirm: "Are you sure you want to surrender your membership?" }, 
+                      method: :delete, 
+                      class: "btn btn-danger btn-sm" %>
+      </div>
+
+      <div class="auth-footer">
+        <%= link_to "← Return to Clubhouse Lounge", root_path %>
+      </div>
+    </div>
+  </div>
+</div>

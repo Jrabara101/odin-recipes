@@ -1,0 +1,52 @@
+<% content_for :title, "Member Sign In | Members Only" %>
+
+<div class="container">
+  <div class="auth-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <div class="form-icon">🔑</div>
+        <h2>Member Sign In</h2>
+        <p>Present your credentials to reveal encrypted author identities across all clubhouse whispers.</p>
+      </div>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: "login-form" }) do |f| %>
+        <div class="form-group">
+          <%= f.label :email, "Email Address", class: "form-label" %>
+          <%= f.email_field :email, 
+                            class: "form-input", 
+                            id: "user_email",
+                            placeholder: "member@clubhouse.org", 
+                            autofocus: true, 
+                            autocomplete: "email", 
+                            required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password, "Password", class: "form-label" %>
+          <%= f.password_field :password, 
+                               class: "form-input", 
+                               id: "user_password",
+                               placeholder: "••••••••", 
+                               autocomplete: "current-password", 
+                               required: true %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <label class="form-check">
+            <%= f.check_box :remember_me, id: "user_remember_me" %>
+            <span>Keep me authenticated on this device</span>
+          </label>
+        <% end %>
+
+        <div class="form-actions">
+          <%= f.submit "Enter the Clubhouse", class: "btn btn-primary btn-lg", id: "login-submit-btn" %>
+        </div>
+      <% end %>
+
+      <div class="auth-footer">
+        <%= render "devise/shared/links" %>
+        <%= link_to "← Return to Lounge", root_path %>
+      </div>
+    </div>
+  </div>
+</div>
