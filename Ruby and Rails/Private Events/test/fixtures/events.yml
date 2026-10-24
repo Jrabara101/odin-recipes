@@ -1,13 +1,15 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+upcoming_event:
+  title: Upcoming BBQ
+  description: Great outdoor rooftop BBQ
+  location: Central Park
+  date: <%= 5.days.from_now %>
+  private: false
+  creator: alice
 
-one:
-  title: MyString
-  description: MyText
-  location: MyString
-  date: 2026-10-24 22:36:30
-
-two:
-  title: MyString
-  description: MyText
-  location: MyString
-  date: 2026-10-24 22:36:30
+past_event:
+  title: Past Workshop
+  description: Coding workshop
+  location: Tech Hub
+  date: <%= 5.days.ago %>
+  private: false
+  creator: bob
