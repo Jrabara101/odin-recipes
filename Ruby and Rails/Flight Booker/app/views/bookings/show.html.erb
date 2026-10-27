@@ -1,0 +1,169 @@
+<% content_for :title, "Booking Confirmed - #{@booking.booking_reference} // AERO" %>
+
+<div class="page-container">
+  <!-- Booking Step Progress Indicator -->
+  <div class="steps-progress-bar" aria-label="Booking steps">
+    <div class="step-item completed" id="step-search">
+      <div class="step-circle">✓</div>
+      <div class="step-label">
+        <span class="step-num">Step 1</span>
+        <span class="step-title">Select Flight</span>
+      </div>
+    </div>
+    <div class="step-connector completed"></div>
+    <div class="step-item completed" id="step-passengers">
+      <div class="step-circle">✓</div>
+      <div class="step-label">
+        <span class="step-num">Step 2</span>
+        <span class="step-title">Passenger Details</span>
+      </div>
+    </div>
+    <div class="step-connector completed"></div>
+    <div class="step-item active" id="step-confirm">
+      <div class="step-circle">✓</div>
+      <div class="step-label">
+        <span class="step-num">Step 3</span>
+        <span class="step-title">Boarding Pass</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Banner -->
+  <div class="confirmation-hero">
+    <div class="confirmation-icon-circle">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+    </div>
+    <h1 class="confirmation-title">Booking Confirmed!</h1>
+    <p class="confirmation-subtitle">
+      Your flight reservation has been successfully completed. Keep your booking reference handy for check-in.
+    </p>
+    <div class="reference-code-box">
+      <span class="ref-label">Booking Reference</span>
+      <span class="ref-code" id="booking-reference-code"><%= @booking.booking_reference %></span>
+    </div>
+  </div>
+
+  <!-- Digital Boarding Pass Ticket Cards for each Passenger -->
+  <div class="boarding-passes-container">
+    <h2 class="passes-section-title">Digital Boarding Passes (<%= @booking.passengers.count %>)</h2>
+
+    <div class="passes-grid">
+      <% @booking.passengers.each_with_index do |passenger, idx| %>
+        <article class="boarding-pass-card" id="boarding-pass-<%= passenger.id %>">
+          <!-- Top airline bar -->
+          <div class="pass-header">
+            <div class="pass-airline">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/>
+              </svg>
+              <span>AERO AIRLINES</span>
+            </div>
+            <div class="pass-type-badge">BOARDING PASS</div>
+          </div>
+
+          <!-- Body details -->
+          <div class="pass-body">
+            <!-- Route row -->
+            <div class="pass-route-row">
+              <div class="pass-station">
+                <span class="pass-code"><%= @flight.departure_airport.code %></span>
+                <span class="pass-city"><%= @flight.departure_airport.city %></span>
+                <span class="pass-time"><%= @flight.formatted_time %></span>
+              </div>
+
+              <div class="pass-flight-flightpath">
+                <span class="pass-flight-no"><%= @flight.flight_number %></span>
+                <div class="pass-path-visual">
+                  <span class="dot"></span>
+                  <span class="line">✈</span>
+                  <span class="dot"></span>
+                </div>
+                <span class="pass-duration"><%= @flight.formatted_duration %> &bull; Non-stop</span>
+              </div>
+
+              <div class="pass-station right">
+                <span class="pass-code"><%= @flight.arrival_airport.code %></span>
+                <span class="pass-city"><%= @flight.arrival_airport.city %></span>
+                <span class="pass-time"><%= @flight.formatted_arrival_time %></span>
+              </div>
+            </div>
+
+            <!-- Passenger info divider -->
+            <div class="pass-divider">
+              <div class="notch left"></div>
+              <div class="dashed-line"></div>
+              <div class="notch right"></div>
+            </div>
+
+            <!-- Passenger details grid -->
+            <div class="pass-passenger-grid">
+              <div class="pass-info-cell">
+                <span class="cell-label">PASSENGER NAME</span>
+                <span class="cell-value strong"><%= passenger.name %></span>
+              </div>
+              <div class="pass-info-cell">
+                <span class="cell-label">FLIGHT DATE</span>
+                <span class="cell-value"><%= @flight.formatted_date %></span>
+              </div>
+              <div class="pass-info-cell">
+                <span class="cell-label">GATE</span>
+                <span class="cell-value highlight">B<%= (idx * 2) + 12 %></span>
+              </div>
+              <div class="pass-info-cell">
+                <span class="cell-label">SEAT</span>
+                <span class="cell-value highlight"><%= 12 + idx %><%= %w[A B C D E F][idx % 6] %></span>
+              </div>
+              <div class="pass-info-cell">
+                <span class="cell-label">CLASS</span>
+                <span class="cell-value">Main Cabin</span>
+              </div>
+              <div class="pass-info-cell">
+                <span class="cell-label">STATUS</span>
+                <span class="cell-value status-badge">CONFIRMED</span>
+              </div>
+            </div>
+
+            <div class="pass-contact-row">
+              <span class="contact-label">Confirmation & E-Ticket Sent to:</span>
+              <span class="contact-email"><%= passenger.email %></span>
+            </div>
+
+            <!-- Decorative barcode -->
+            <div class="pass-barcode-container">
+              <div class="mock-barcode">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <span class="barcode-number">ETKT-<%= @booking.booking_reference %>-0<%= idx + 1 %></span>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="confirmation-actions">
+    <button type="button" onclick="window.print()" class="btn-secondary" id="print-tickets-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      <span>Print Boarding Passes</span>
+    </button>
+    <%= link_to root_path, class: "btn-primary", id: "book-another-flight-btn" do %>
+      <span>Book Another Flight</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    <% end %>
+  </div>
+</div>

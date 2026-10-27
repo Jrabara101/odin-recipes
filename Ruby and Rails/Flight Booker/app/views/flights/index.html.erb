@@ -1,0 +1,275 @@
+<% content_for :title, "Search Available Flights // AERO" %>
+
+<div class="page-container">
+  <!-- Booking Step Progress Indicator -->
+  <div class="steps-progress-bar" aria-label="Booking steps">
+    <div class="step-item active" id="step-search">
+      <div class="step-circle">1</div>
+      <div class="step-label">
+        <span class="step-num">Step 1</span>
+        <span class="step-title">Select Flight</span>
+      </div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item" id="step-passengers">
+      <div class="step-circle">2</div>
+      <div class="step-label">
+        <span class="step-num">Step 2</span>
+        <span class="step-title">Passenger Details</span>
+      </div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item" id="step-confirm">
+      <div class="step-circle">3</div>
+      <div class="step-label">
+        <span class="step-num">Step 3</span>
+        <span class="step-title">Boarding Pass</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <span class="hero-badge">Aero Airlines &bull; Fast Booking Engine</span>
+    <h1 class="hero-title">Discover and Book Your Next Flight</h1>
+    <p class="hero-subtitle">
+      Select your departure, destination, date, and passenger count to find available one-way flights.
+    </p>
+  </div>
+
+  <!-- Screen 1: Search Form -->
+  <div class="search-card-wrapper">
+    <div class="search-card">
+      <div class="search-card-header">
+        <div class="search-title-group">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <h2>Search Scheduled Flights</h2>
+        </div>
+        <% if @search_performed %>
+          <%= link_to "Reset Search", root_path, class: "btn-reset", id: "reset-search-btn" %>
+        <% end %>
+      </div>
+
+      <%= form_with url: flights_path, method: :get, local: true, class: "flight-search-form", id: "flights_search_form" do %>
+        <div class="form-grid">
+          <!-- 1. Departure Airport Dropdown -->
+          <div class="form-group">
+            <%= label_tag :departure_airport_id, "From (Departure Airport)", class: "form-label" do %>
+              <span class="label-icon">🛫</span>
+              <span>Departure Airport</span>
+            <% end %>
+            <div class="select-wrapper">
+              <%= select_tag :departure_airport_id,
+                             options_for_select(@airport_options, @departure_airport_id),
+                             prompt: "-- Select Departure Airport --",
+                             required: true,
+                             class: "form-select",
+                             id: "departure_airport_id" %>
+            </div>
+          </div>
+
+          <!-- 2. Arrival Airport Dropdown -->
+          <div class="form-group">
+            <%= label_tag :arrival_airport_id, "To (Arrival Airport)", class: "form-label" do %>
+              <span class="label-icon">🛬</span>
+              <span>Arrival Airport</span>
+            <% end %>
+            <div class="select-wrapper">
+              <%= select_tag :arrival_airport_id,
+                             options_for_select(@airport_options, @arrival_airport_id),
+                             prompt: "-- Select Arrival Airport --",
+                             required: true,
+                             class: "form-select",
+                             id: "arrival_airport_id" %>
+            </div>
+          </div>
+
+          <!-- 3. Number of Passengers Dropdown (1-4) -->
+          <div class="form-group">
+            <%= label_tag :num_tickets, "Passengers", class: "form-label" do %>
+              <span class="label-icon">👥</span>
+              <span>Number of Passengers</span>
+            <% end %>
+            <div class="select-wrapper">
+              <%= select_tag :num_tickets,
+                             options_for_select(@passenger_options, @num_tickets),
+                             class: "form-select",
+                             id: "num_tickets" %>
+            </div>
+          </div>
+
+          <!-- 4. Date Dropdown (Only dates with existing flights) -->
+          <div class="form-group">
+            <%= label_tag :date, "Flight Date", class: "form-label" do %>
+              <span class="label-icon">📅</span>
+              <span>Departure Date</span>
+            <% end %>
+            <div class="select-wrapper">
+              <%= select_tag :date,
+                             options_for_select(@date_options, @selected_date),
+                             prompt: "-- Select Available Date --",
+                             required: true,
+                             class: "form-select",
+                             id: "date" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <%= submit_tag "Find Available Flights", class: "btn-primary", id: "search-submit-btn" %>
+        </div>
+      <% end %>
+
+      <!-- Quick Suggestion Shortcuts -->
+      <div class="quick-routes">
+        <span class="quick-routes-label">Popular Routes:</span>
+        <div class="quick-chips">
+          <% sfo = Airport.find_by(code: "SFO") %>
+          <% nyc = Airport.find_by(code: "NYC") %>
+          <% lax = Airport.find_by(code: "LAX") %>
+          <% ord = Airport.find_by(code: "ORD") %>
+          <% sample_date = Flight.available_dates.first&.strftime("%Y-%m-%d") %>
+
+          <% if sfo && nyc && sample_date %>
+            <%= link_to "SFO → NYC", flights_path(departure_airport_id: sfo.id, arrival_airport_id: nyc.id, date: sample_date, num_tickets: 1), class: "chip", id: "chip-sfo-nyc" %>
+          <% end %>
+          <% if lax && ord && sample_date %>
+            <%= link_to "LAX → ORD", flights_path(departure_airport_id: lax.id, arrival_airport_id: ord.id, date: sample_date, num_tickets: 2), class: "chip", id: "chip-lax-ord" %>
+          <% end %>
+          <% if nyc && sfo && sample_date %>
+            <%= link_to "NYC → SFO", flights_path(departure_airport_id: nyc.id, arrival_airport_id: sfo.id, date: sample_date, num_tickets: 1), class: "chip", id: "chip-nyc-sfo" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 2: Flight Results -->
+  <% if @search_performed %>
+    <section class="results-section" id="flight-results-container">
+      <% if @flights.any? %>
+        <div class="results-header">
+          <div>
+            <h2 class="results-title">Available Flights (<%= @flights.count %> found)</h2>
+            <p class="results-meta">
+              Showing one-way departures for <strong><%= pluralize(@num_tickets, "Passenger") %></strong> on <strong><%= Flight.search(departure_id: @departure_airport_id, arrival_id: @arrival_airport_id, date: @selected_date).first&.formatted_full_date || @selected_date %></strong>
+            </p>
+          </div>
+          <span class="badge-results-count"><%= @flights.count %> Options</span>
+        </div>
+
+        <!-- Form submitting flight selection to BookingsController#new via GET -->
+        <%= form_with url: new_booking_path, method: :get, local: true, id: "flight_selection_form" do %>
+          <%= hidden_field_tag :num_tickets, @num_tickets, id: "selection_num_tickets" %>
+
+          <div class="flight-cards-list">
+            <% @flights.each_with_index do |flight, index| %>
+              <label for="flight_<%= flight.id %>" class="flight-card-label">
+                <div class="flight-card">
+                  <div class="flight-card-radio">
+                    <%= radio_button_tag :flight_id, flight.id, (index == 0), id: "flight_#{flight.id}", class: "flight-radio-input" %>
+                    <span class="custom-radio"></span>
+                  </div>
+
+                  <div class="flight-details-main">
+                    <div class="flight-meta-top">
+                      <span class="flight-number-badge"><%= flight.flight_number %></span>
+                      <span class="aircraft-type">Airbus A321neo &bull; Wi-Fi Available</span>
+                      <span class="flight-date-tag"><%= flight.formatted_date %></span>
+                    </div>
+
+                    <div class="flight-timeline-row">
+                      <!-- Departure Airport -->
+                      <div class="timeline-point departure">
+                        <span class="timeline-time"><%= flight.formatted_time %></span>
+                        <span class="timeline-code"><%= flight.departure_airport.code %></span>
+                        <span class="timeline-city"><%= flight.departure_airport.city %></span>
+                      </div>
+
+                      <!-- Duration Bar -->
+                      <div class="timeline-duration-track">
+                        <span class="duration-text"><%= flight.formatted_duration %></span>
+                        <div class="duration-line">
+                          <div class="line-dot start"></div>
+                          <div class="line-plane">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                            </svg>
+                          </div>
+                          <div class="line-dot end"></div>
+                        </div>
+                        <span class="duration-stop-tag">Non-stop Direct</span>
+                      </div>
+
+                      <!-- Arrival Airport -->
+                      <div class="timeline-point arrival">
+                        <span class="timeline-time"><%= flight.formatted_arrival_time %></span>
+                        <span class="timeline-code"><%= flight.arrival_airport.code %></span>
+                        <span class="timeline-city"><%= flight.arrival_airport.city %></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Price & Selection CTA -->
+                  <div class="flight-card-fare">
+                    <span class="fare-label">Starting at</span>
+                    <span class="fare-amount">$<%= 149 + (flight.duration / 3) %></span>
+                    <span class="fare-per-person">per passenger</span>
+                    <span class="fare-select-hint">Click to select</span>
+                  </div>
+                </div>
+              </label>
+            <% end %>
+          </div>
+
+          <div class="results-cta-bar">
+            <div class="cta-info">
+              <span class="cta-note">Ready to reserve seats for <strong><%= pluralize(@num_tickets, "Passenger") %></strong>?</span>
+            </div>
+            <%= submit_tag "Continue to Passenger Information →", class: "btn-cta", id: "continue-to-booking-btn" %>
+          </div>
+        <% end %>
+
+      <% else %>
+        <div class="empty-results-card">
+          <div class="empty-icon">✈️</div>
+          <h3>No Flights Found</h3>
+          <p>
+            We couldn't find any direct flights matching your selected airports and date.
+          </p>
+          <div class="empty-suggestions">
+            <p><strong>Suggestions:</strong></p>
+            <ul>
+              <li>Check another date from the available departure dates dropdown.</li>
+              <li>Make sure the departure and arrival airports are different.</li>
+              <li>Try high-frequency hubs like SFO, NYC, LAX, or ORD.</li>
+            </ul>
+          </div>
+          <%= link_to "Reset Filters", root_path, class: "btn-secondary" %>
+        </div>
+      <% end %>
+    </section>
+  <% else %>
+    <!-- Initial State Showcase -->
+    <section class="feature-strip">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Real-Time Availability</h3>
+        <p>Instant seat availability across all major airline routes seeded directly in your Rails database.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Seamless Booking</h3>
+        <p>Dynamic nested forms (<code class="inline-code">accepts_nested_attributes_for</code>) handle multi-passenger tickets gracefully.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎫</div>
+        <h3>Instant Boarding Pass</h3>
+        <p>Receive your digital confirmation ticket and reference code as soon as your booking is submitted.</p>
+      </div>
+    </section>
+  <% end %>
+</div>
