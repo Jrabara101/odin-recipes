@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%= content_for(:title) || "Odin Kittens API | RESTful Kitten Sanctuary" %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A Ruby on Rails RESTful API and interactive dashboard managing kittens with JSON endpoints and HTML views for The Odin Project.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <!-- Top Navigation Header -->
+    <header class="site-header">
+      <div class="header-container">
+        <div class="brand">
+          <%= link_to root_path, class: "brand-link" do %>
+            <div class="brand-icon">🐱</div>
+            <div class="brand-text">
+              <span class="brand-title">Kittens<span class="brand-badge">API</span></span>
+              <span class="brand-subtitle">The Odin Project // REST Sanctuary</span>
+            </div>
+          <% end %>
+        </div>
+
+        <nav class="main-nav">
+          <%= link_to root_path, class: "nav-item #{'active' if current_page?(root_path) || current_page?(kittens_path)}" do %>
+            <span class="nav-icon">🐾</span>
+            <span class="nav-text">Sanctuary</span>
+          <% end %>
+
+          <%= link_to new_kitten_path, class: "nav-item #{'active' if current_page?(new_kitten_path)}" do %>
+            <span class="nav-icon">✨</span>
+            <span class="nav-text">New Kitten</span>
+          <% end %>
+
+          <%= link_to kittens_path(format: :json), target: "_blank", class: "nav-item nav-api-pill", title: "Open raw JSON API endpoint" do %>
+            <span class="api-tag">GET</span>
+            <span class="api-endpoint">/kittens.json</span>
+          <% end %>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Flash Notifications Banner -->
+    <div class="flash-container">
+      <% if flash[:success].present? %>
+        <div class="flash-toast flash-success" role="alert">
+          <div class="flash-icon">🏆</div>
+          <div class="flash-message"><%= flash[:success] %></div>
+          <button type="button" class="flash-close" onclick="this.parentElement.remove()">✕</button>
+        </div>
+      <% end %>
+
+      <% if flash[:notice].present? %>
+        <div class="flash-toast flash-notice" role="alert">
+          <div class="flash-icon">📢</div>
+          <div class="flash-message"><%= flash[:notice] %></div>
+          <button type="button" class="flash-close" onclick="this.parentElement.remove()">✕</button>
+        </div>
+      <% end %>
+
+      <% if flash[:alert].present? %>
+        <div class="flash-toast flash-alert" role="alert">
+          <div class="flash-icon">😹</div>
+          <div class="flash-message"><%= flash[:alert] %></div>
+          <button type="button" class="flash-close" onclick="this.parentElement.remove()">✕</button>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <%= yield %>
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-col">
+          <div class="footer-brand">
+            <span class="cat-logo">🐾</span> <strong>Odin Kittens API</strong>
+          </div>
+          <p class="footer-desc">
+            A vanilla Ruby on Rails application demonstrating full dual-format capability: serving traditional HTML views and responding to RESTful JSON API requests.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">RESTful Endpoints</h4>
+          <ul class="endpoint-list">
+            <li><code>GET /kittens</code> (HTML / JSON)</li>
+            <li><code>GET /kittens/:id</code> (HTML / JSON)</li>
+            <li><code>GET /kittens/new</code> (HTML Form)</li>
+            <li><code>POST /kittens</code> (HTML Create)</li>
+            <li><code>GET /kittens/:id/edit</code> (HTML Edit)</li>
+            <li><code>PATCH /kittens/:id</code> (HTML Update)</li>
+            <li><code>DELETE /kittens/:id</code> (HTML Delete)</li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Project References</h4>
+          <ul class="footer-links">
+            <li>
+              <a href="https://www.theodinproject.com/lessons/ruby-on-rails-kittens-api" target="_blank" rel="noopener">
+                📖 Odin Project: Kittens API Lesson
+              </a>
+            </li>
+            <li>
+              <a href="http://www.flickr.com/services/api/" target="_blank" rel="noopener">
+                🌐 Flickr API Documentation
+              </a>
+            </li>
+            <li>
+              <%= link_to "⚡ View All Kittens JSON (/kittens.json)", kittens_path(format: :json), target: "_blank" %>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Built with Ruby on Rails <%= Rails.version %> & Ruby <%= RUBY_VERSION %></span>
+        <span>Every kitten is 10/10 cute by default.</span>
+      </div>
+    </footer>
+  </body>
+</html>

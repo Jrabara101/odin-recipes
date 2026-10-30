@@ -1,0 +1,145 @@
+<% content_for :title, "#{@kitten.name} | Odin Kittens API" %>
+
+<div class="page-container">
+  <div class="breadcrumb">
+    <%= link_to "← Sanctuary", root_path, class: "breadcrumb-link" %>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current"><%= @kitten.name %> (ID: #<%= @kitten.id %>)</span>
+  </div>
+
+  <div class="show-layout">
+    <!-- Main Profile Card -->
+    <div class="kitten-profile-card">
+      <div class="profile-hero">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar-icon">🐱</div>
+          <span class="profile-status-badge">Sanctuary Resident</span>
+        </div>
+        <div class="profile-title-group">
+          <span class="profile-id-tag">Kitten Record #<%= @kitten.id %></span>
+          <h1 class="profile-name"><%= @kitten.name %></h1>
+          <p class="profile-age">
+            <% if @kitten.age == 0 %>
+              🍼 Tiny Baby Kitten (&lt; 1 year old)
+            <% elsif @kitten.age == 1 %>
+              🐾 1 year old (Playful juvenile)
+            <% else %>
+              🐾 <%= @kitten.age %> years old
+            <% end %>
+          </p>
+        </div>
+      </div>
+
+      <!-- Vital Statistics Gauges -->
+      <div class="profile-metrics-grid">
+        <div class="metric-card cuteness-card">
+          <div class="metric-header">
+            <span class="metric-icon">💖</span>
+            <span class="metric-label">Cuteness Quotient</span>
+          </div>
+          <div class="metric-score-row">
+            <span class="metric-score"><%= @kitten.cuteness %></span>
+            <span class="metric-max">/ 10</span>
+          </div>
+          <div class="metric-bar-track">
+            <div class="metric-bar-fill cuteness-fill" style="width: <%= (@kitten.cuteness * 10) %>%;"></div>
+          </div>
+          <span class="metric-sublabel"><%= @kitten.cuteness_label %></span>
+        </div>
+
+        <div class="metric-card softness-card">
+          <div class="metric-header">
+            <span class="metric-icon">☁️</span>
+            <span class="metric-label">Floof & Softness</span>
+          </div>
+          <div class="metric-score-row">
+            <span class="metric-score"><%= @kitten.softness %></span>
+            <span class="metric-max">/ 10</span>
+          </div>
+          <div class="metric-bar-track">
+            <div class="metric-bar-fill softness-fill" style="width: <%= (@kitten.softness * 10) %>%;"></div>
+          </div>
+          <span class="metric-sublabel"><%= @kitten.softness_label %></span>
+        </div>
+      </div>
+
+      <!-- Timestamps & Metadata -->
+      <div class="profile-metadata-row">
+        <div class="meta-item">
+          <span class="meta-label">Adopted / Registered:</span>
+          <span class="meta-val"><%= @kitten.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Last Groomed:</span>
+          <span class="meta-val"><%= @kitten.updated_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+        </div>
+      </div>
+
+      <!-- Action Buttons Row (Includes Required Delete Link) -->
+      <div class="profile-actions-row">
+        <%= link_to edit_kitten_path(@kitten), class: "btn btn-primary" do %>
+          <span>✏️ Edit Kitten</span>
+        <% end %>
+
+        <%= link_to root_path, class: "btn btn-secondary" do %>
+          <span>← Back to Sanctuary</span>
+        <% end %>
+
+        <%= button_to kitten_path(@kitten),
+                      method: :delete,
+                      data: { turbo_confirm: "Are you sure you want to say goodbye to #{@kitten.name}? They will miss their sunny spot!" },
+                      class: "btn btn-danger",
+                      form_class: "inline-form" do %>
+          <span>🗑️ Delete Kitten</span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- REST API Inspector for this specific Kitten -->
+    <div class="api-inspector-card">
+      <div class="api-inspector-header">
+        <div class="api-header-left">
+          <span class="method-tag method-get">GET</span>
+          <code class="endpoint-code">/kittens/<%= @kitten.id %>.json</code>
+        </div>
+        <%= link_to kitten_path(@kitten, format: :json), target: "_blank", class: "btn btn-sm btn-outline-api" do %>
+          <span>↗ Open JSON</span>
+        <% end %>
+      </div>
+
+      <p class="api-inspector-desc">
+        Access this single kitten's record via HTTP. The controller responds to both <code>application/json</code> headers and <code>.json</code> extension.
+      </p>
+
+      <!-- Code Snippets -->
+      <div class="code-snippets-container">
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Ruby HTTParty Console</span>
+            <button type="button" class="btn-copy" onclick="navigator.clipboard.writeText(`require 'httparty'\nresponse = HTTParty.get('http://localhost:3000/kittens/<%= @kitten.id %>', headers: { 'Accept' => 'application/json' })\nputs response.body`)">Copy</button>
+          </div>
+          <pre class="snippet-pre"><code>require 'httparty'
+response = HTTParty.get("http://localhost:3000/kittens/<%= @kitten.id %>", headers: { 'Accept' => 'application/json' })
+puts response.body</code></pre>
+        </div>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>cURL Terminal Command</span>
+            <button type="button" class="btn-copy" onclick="navigator.clipboard.writeText(`curl -H &quot;Accept: application/json&quot; http://localhost:3000/kittens/<%= @kitten.id %>`)">Copy</button>
+          </div>
+          <pre class="snippet-pre"><code>curl -H "Accept: application/json" http://localhost:3000/kittens/<%= @kitten.id %></code></pre>
+        </div>
+      </div>
+
+      <!-- Live JSON Preview -->
+      <div class="live-json-block">
+        <div class="live-json-header">
+          <span>⚡ Live JSON Response Payload</span>
+          <span class="json-status">200 OK</span>
+        </div>
+        <pre class="live-json-pre"><code><%= JSON.pretty_generate(@kitten.as_json) %></code></pre>
+      </div>
+    </div>
+  </div>
+</div>

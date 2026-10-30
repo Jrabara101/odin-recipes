@@ -1,0 +1,40 @@
+<% content_for :title, "Edit #{@kitten.name} | Odin Kittens API" %>
+
+<div class="page-container form-page-container">
+  <div class="breadcrumb">
+    <%= link_to "← Sanctuary", root_path, class: "breadcrumb-link" %>
+    <span class="breadcrumb-sep">/</span>
+    <%= link_to @kitten.name, kitten_path(@kitten), class: "breadcrumb-link" %>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Edit Kitten Profile</span>
+  </div>
+
+  <div class="form-card">
+    <div class="form-card-header">
+      <div class="form-header-badge">✏️ Sanctuary Editor</div>
+      <h1 class="form-title">Edit Kitten: <%= @kitten.name %></h1>
+      <p class="form-desc">
+        Update <%= @kitten.name %>'s attributes, age, or recalibrate their cuteness and softness levels.
+      </p>
+    </div>
+
+    <%= render "form", kitten: @kitten %>
+
+    <!-- Danger Zone: Delete Link on Edit Page (Required by Assignment) -->
+    <div class="danger-zone-card">
+      <div class="danger-zone-info">
+        <h4 class="danger-zone-title">⚠️ Kitten De-registration</h4>
+        <p class="danger-zone-desc">
+          Permanently remove <%= @kitten.name %> from the sanctuary database. This action cannot be undone!
+        </p>
+      </div>
+      <%= button_to kitten_path(@kitten),
+                    method: :delete,
+                    data: { turbo_confirm: "Are you sure you want to say goodbye to #{@kitten.name}? They will be very sad!" },
+                    class: "btn btn-danger",
+                    form_class: "inline-form" do %>
+        <span>🗑️ Delete <%= @kitten.name %></span>
+      <% end %>
+    </div>
+  </div>
+</div>

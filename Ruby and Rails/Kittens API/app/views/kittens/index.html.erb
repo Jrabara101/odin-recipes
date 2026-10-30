@@ -1,0 +1,255 @@
+<% content_for :title, "Kitten Sanctuary & REST API | The Odin Project" %>
+
+<div class="page-container">
+  <!-- Hero Section -->
+  <section class="sanctuary-hero">
+    <div class="hero-badge">🐾 The Odin Project: Ruby on Rails RESTful API</div>
+    <h1 class="hero-title">
+      The RESTful <span class="gradient-text">Kitten Sanctuary</span>
+    </h1>
+    <p class="hero-desc">
+      A dual-engine Rails application serving responsive HTML views for humans and JSON endpoints for API consumers. Query the database, calibrate cuteness, and fetch data with <code>HTTParty</code> or <code>curl</code>.
+    </p>
+
+    <div class="hero-actions">
+      <%= link_to new_kitten_path, class: "btn btn-primary btn-lg" do %>
+        <span>✨ Welcome a New Kitten</span>
+      <% end %>
+
+      <%= link_to kittens_path(format: :json), target: "_blank", class: "btn btn-outline-api btn-lg" do %>
+        <span class="api-tag">GET</span>
+        <span>View /kittens.json</span>
+      <% end %>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="sanctuary-stats-row">
+      <div class="stat-pill">
+        <span class="stat-num"><%= @kittens.count %></span>
+        <span class="stat-name">Registered Kittens</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-num">
+          <%= @kittens.any? ? (@kittens.average(:cuteness)&.round(1) || 10) : 0 %>/10
+        </span>
+        <span class="stat-name">Avg Cuteness</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-num">
+          <%= @kittens.any? ? (@kittens.average(:softness)&.round(1) || 10) : 0 %>/10
+        </span>
+        <span class="stat-name">Floofiness Index</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-num">100%</span>
+        <span class="stat-name">REST Compliant</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive REST API Console & Explorer -->
+  <section class="api-console-section">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="section-icon">⚡</span>
+        <div>
+          <h2 class="section-title">RESTful API Interactive Explorer</h2>
+          <p class="section-subtitle">Test and consume endpoints via Ruby HTTParty, cURL, or fetch()</p>
+        </div>
+      </div>
+      <div class="api-endpoints-badges">
+        <span class="endpoint-pill"><code>GET /kittens</code> (All)</span>
+        <span class="endpoint-pill"><code>GET /kittens/:id</code> (Single)</span>
+      </div>
+    </div>
+
+    <div class="console-card">
+      <div class="console-tabs" id="consoleTabs">
+        <button type="button" class="tab-btn active" onclick="switchApiTab('httparty')">Ruby HTTParty</button>
+        <button type="button" class="tab-btn" onclick="switchApiTab('curl')">cURL</button>
+        <button type="button" class="tab-btn" onclick="switchApiTab('js')">JavaScript (Fetch)</button>
+        <button type="button" class="tab-btn" onclick="switchApiTab('live-json')">Live JSON Payload</button>
+      </div>
+
+      <!-- HTTParty Tab -->
+      <div class="tab-content" id="tab-httparty">
+        <div class="code-box-header">
+          <span class="box-lang">Ruby (in `rails console`)</span>
+          <button type="button" class="btn-copy" onclick="navigator.clipboard.writeText(`require 'httparty'\nresponse = HTTParty.get('http://localhost:3000/kittens', headers: { 'Accept' => 'application/json' })\nputs response.body`)">Copy Code</button>
+        </div>
+        <pre class="console-pre"><code># 1. Require HTTParty (bundled in project)
+require 'httparty'
+
+# 2. Make GET request specifying Accept: application/json
+response = HTTParty.get("http://localhost:3000/kittens", headers: { 'Accept' => 'application/json' })
+
+# 3. Inspect parsed JSON or raw string
+puts response.body</code></pre>
+      </div>
+
+      <!-- cURL Tab -->
+      <div class="tab-content hidden" id="tab-curl">
+        <div class="code-box-header">
+          <span class="box-lang">Terminal (cURL)</span>
+          <button type="button" class="btn-copy" onclick="navigator.clipboard.writeText(`curl -i -H &quot;Accept: application/json&quot; http://localhost:3000/kittens`)">Copy Command</button>
+        </div>
+        <pre class="console-pre"><code># Send HTTP GET with Accept header:
+curl -i -H "Accept: application/json" http://localhost:3000/kittens
+
+# Or append .json directly:
+curl -i http://localhost:3000/kittens.json</code></pre>
+      </div>
+
+      <!-- JS Tab -->
+      <div class="tab-content hidden" id="tab-js">
+        <div class="code-box-header">
+          <span class="box-lang">Frontend JavaScript (Modern Fetch)</span>
+          <button type="button" class="btn-copy" onclick="navigator.clipboard.writeText(`fetch('/kittens.json')\n  .then(res => res.json())\n  .then(kittens => console.table(kittens));`)">Copy Code</button>
+        </div>
+        <pre class="console-pre"><code>// Fetch kittens as JSON from client-side JavaScript:
+fetch('/kittens.json')
+  .then(response => response.json())
+  .then(kittens => {
+    console.log("Retrieved kittens from API:", kittens);
+    console.table(kittens);
+  });</code></pre>
+      </div>
+
+      <!-- Live JSON Tab -->
+      <div class="tab-content hidden" id="tab-live-json">
+        <div class="code-box-header">
+          <span class="box-lang">Live Database Output (<%= @kittens.count %> kittens)</span>
+          <%= link_to "↗ Raw JSON URL", kittens_path(format: :json), target: "_blank", class: "btn-copy" %>
+        </div>
+        <pre class="console-pre live-pre"><code><%= JSON.pretty_generate(@kittens.as_json) %></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kittens Directory Section -->
+  <section class="sanctuary-catalog">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="section-icon">🐾</span>
+        <div>
+          <h2 class="section-title">Sanctuary Residents Directory</h2>
+          <p class="section-subtitle">Showing all <%= pluralize(@kittens.count, "kitten") %> currently residing in the sanctuary</p>
+        </div>
+      </div>
+      <%= link_to "+ Register Kitten", new_kitten_path, class: "btn btn-primary" %>
+    </div>
+
+    <% if @kittens.empty? %>
+      <div class="empty-state-card">
+        <div class="empty-emoji">😿</div>
+        <h3>No Kittens in the Sanctuary!</h3>
+        <p>The sanctuary is empty and quiet. Be the hero this world needs and welcome a kitten now.</p>
+        <%= link_to "🐾 Register the First Kitten", new_kitten_path, class: "btn btn-primary" %>
+      </div>
+    <% else %>
+      <div class="kittens-grid">
+        <% @kittens.each do |kitten| %>
+          <div class="kitten-card" id="<%= dom_id(kitten) %>">
+            <!-- Card Header -->
+            <div class="card-top">
+              <div class="card-avatar">
+                🐱
+              </div>
+              <div class="card-title-group">
+                <div class="card-id-row">
+                  <span class="card-id">#<%= kitten.id %></span>
+                  <span class="card-age-badge">
+                    <%= kitten.age == 0 ? "Baby (<1 yr)" : "#{kitten.age} #{'yr'.pluralize(kitten.age)}" %>
+                  </span>
+                </div>
+                <h3 class="card-name">
+                  <%= link_to kitten.name, kitten_path(kitten), class: "card-name-link" %>
+                </h3>
+              </div>
+            </div>
+
+            <!-- Card Metrics -->
+            <div class="card-meters">
+              <!-- Cuteness -->
+              <div class="card-meter-item">
+                <div class="meter-label-row">
+                  <span class="meter-title">💖 Cuteness</span>
+                  <span class="meter-score"><%= kitten.cuteness %>/10</span>
+                </div>
+                <div class="meter-track">
+                  <div class="meter-fill cuteness-fill" style="width: <%= (kitten.cuteness * 10) %>%;"></div>
+                </div>
+                <span class="meter-text-desc"><%= kitten.cuteness_label %></span>
+              </div>
+
+              <!-- Softness -->
+              <div class="card-meter-item">
+                <div class="meter-label-row">
+                  <span class="meter-title">☁️ Floof</span>
+                  <span class="meter-score"><%= kitten.softness %>/10</span>
+                </div>
+                <div class="meter-track">
+                  <div class="meter-fill softness-fill" style="width: <%= (kitten.softness * 10) %>%;"></div>
+                </div>
+                <span class="meter-text-desc"><%= kitten.softness_label %></span>
+              </div>
+            </div>
+
+            <!-- Card Actions (Includes Required Delete Link next to each Kitten on Index) -->
+            <div class="card-actions-footer">
+              <div class="card-actions-primary">
+                <%= link_to kitten_path(kitten), class: "btn btn-sm btn-secondary", title: "View single kitten profile" do %>
+                  <span>Show</span>
+                <% end %>
+
+                <%= link_to edit_kitten_path(kitten), class: "btn btn-sm btn-secondary", title: "Edit kitten attributes" do %>
+                  <span>Edit</span>
+                <% end %>
+
+                <%= link_to kitten_path(kitten, format: :json), target: "_blank", class: "btn btn-sm btn-outline-api", title: "View JSON" do %>
+                  <span>JSON</span>
+                <% end %>
+              </div>
+
+              <!-- Delete Link explicitly next to each Kitten in Index Page -->
+              <div class="card-actions-delete">
+                <%= button_to kitten_path(kitten),
+                              method: :delete,
+                              data: { turbo_confirm: "Are you sure you want to delete #{kitten.name}? They will wander off!" },
+                              class: "btn btn-sm btn-danger",
+                              form_class: "inline-form",
+                              title: "Delete #{kitten.name} from sanctuary" do %>
+                  <span>🗑️ Delete</span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </section>
+</div>
+
+<script>
+  function switchApiTab(tabName) {
+    // Hide all contents
+    const contents = document.querySelectorAll('.tab-content');
+    contents.forEach(el => el.classList.add('hidden'));
+
+    // Remove active class from buttons
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+
+    // Show selected content
+    const targetContent = document.getElementById('tab-' + tabName);
+    if (targetContent) {
+      targetContent.classList.remove('hidden');
+    }
+
+    // Set button active
+    const activeBtn = Array.from(buttons).find(b => b.getAttribute('onclick').includes(tabName));
+    if (activeBtn) {
+      activeBtn.classList.add('active');
+    }
+  }
+</script>

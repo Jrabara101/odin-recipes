@@ -1,0 +1,21 @@
+<% content_for :title, "Welcome a New Kitten | Odin Kittens API" %>
+
+<div class="page-container form-page-container">
+  <div class="breadcrumb">
+    <%= link_to "← Sanctuary", root_path, class: "breadcrumb-link" %>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">New Kitten Registration</span>
+  </div>
+
+  <div class="form-card">
+    <div class="form-card-header">
+      <div class="form-header-badge">🐾 Official Registry Form</div>
+      <h1 class="form-title">Register a New Kitten</h1>
+      <p class="form-desc">
+        Welcome a fresh feline friend into the sanctuary. Measure their age, cuteness quotient, and cloud-like softness index.
+      </p>
+    </div>
+
+    <%= render "form", kitten: @kitten %>
+  </div>
+</div>

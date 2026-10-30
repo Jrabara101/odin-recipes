@@ -1,0 +1,79 @@
+<%= form_with(model: kitten, class: "kitten-form", local: true) do |f| %>
+  <% if kitten.errors.any? %>
+    <div class="form-error-banner" role="alert">
+      <div class="error-banner-header">
+        <span class="error-emoji">🙀</span>
+        <div>
+          <h3 class="error-title">Halt, Human! <%= pluralize(kitten.errors.count, "blunder") %> detected!</h3>
+          <p class="error-subtitle">Did you drop a fish on your keyboard? The Kitten Committee demands immediate corrections:</p>
+        </div>
+      </div>
+      <ul class="error-list">
+        <% kitten.errors.each do |error| %>
+          <li class="error-item">
+            <strong><%= error.attribute.to_s.humanize %>:</strong> <%= error.message %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-grid">
+    <!-- Kitten Name -->
+    <div class="form-group full-width">
+      <%= f.label :name, class: "form-label" do %>
+        <span>Kitten Name</span>
+        <span class="required-star">*</span>
+      <% end %>
+      <%= f.text_field :name, class: "form-input", placeholder: "e.g., Mochi, Sir Fluffington, Pickles, Waffles...", required: true, autofocus: true %>
+      <span class="form-hint">Choose a dignified name worthy of royalty (or supreme goofiness).</span>
+    </div>
+
+    <!-- Kitten Age -->
+    <div class="form-group">
+      <%= f.label :age, class: "form-label" do %>
+        <span>Age (Years)</span>
+        <span class="required-star">*</span>
+      <% end %>
+      <%= f.number_field :age, class: "form-input", min: 0, max: 35, placeholder: "0 for tiny kitten, 1, 2...", required: true %>
+      <span class="form-hint">Enter 0 if the kitten is a wee baby under 12 months.</span>
+    </div>
+
+    <!-- Cuteness Rating (1 - 10) -->
+    <div class="form-group">
+      <%= f.label :cuteness, class: "form-label" do %>
+        <span>Cuteness Level (1–10)</span>
+        <span class="required-star">*</span>
+      <% end %>
+      <div class="slider-wrapper">
+        <%= f.range_field :cuteness, min: 1, max: 10, step: 1, class: "form-range", id: "cuteness_slider", oninput: "document.getElementById('cuteness_val').innerText = this.value" %>
+        <div class="slider-badge-row">
+          <span class="slider-min">1 (Grumpy)</span>
+          <span class="slider-value-pill" id="cuteness_val"><%= kitten.cuteness || 10 %></span>
+          <span class="slider-max">10 (Heart-melting)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Softness Rating (1 - 10) -->
+    <div class="form-group full-width">
+      <%= f.label :softness, class: "form-label" do %>
+        <span>Softness Floofiness Index (1–10)</span>
+        <span class="required-star">*</span>
+      <% end %>
+      <div class="slider-wrapper">
+        <%= f.range_field :softness, min: 1, max: 10, step: 1, class: "form-range", id: "softness_slider", oninput: "document.getElementById('softness_val').innerText = this.value" %>
+        <div class="slider-badge-row">
+          <span class="slider-min">1 (Wiry Bristles)</span>
+          <span class="slider-value-pill" id="softness_val"><%= kitten.softness || 10 %></span>
+          <span class="slider-max">10 (Pure Cloud Floof)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit (kitten.persisted? ? "✨ Update Kitten Profile" : "🐾 Welcome Kitten to Sanctuary"), class: "btn btn-primary btn-lg" %>
+    <%= link_to "Cancel", (kitten.persisted? ? kitten_path(kitten) : root_path), class: "btn btn-secondary" %>
+  </div>
+<% end %>
