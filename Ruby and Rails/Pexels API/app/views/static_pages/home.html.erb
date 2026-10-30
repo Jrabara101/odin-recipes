@@ -1,0 +1,439 @@
+<div class="app-layout">
+  <!-- Top Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="<%= root_path %>" class="nav-brand">
+        <span class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+        </span>
+        <span class="brand-text">Pexels Gallery</span>
+        <span class="brand-badge">Rails & Pexels API</span>
+      </a>
+
+      <div class="nav-status">
+        <% if @api_key_configured %>
+          <span class="status-pill connected" title="PEXELS_API_KEY is configured">
+            <span class="status-dot"></span>
+            API Connected
+          </span>
+        <% else %>
+          <span class="status-pill warning" title="API Key not found in .env or credentials. Demo mode is available.">
+            <span class="status-dot"></span>
+            Demo Mode (No API Key)
+          </span>
+        <% end %>
+
+        <a href="https://www.pexels.com/api/documentation/" target="_blank" rel="noopener noreferrer" class="nav-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          </svg>
+          API Docs
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Hero & Search Box -->
+  <main class="main-content">
+    <section class="hero-section">
+      <div class="hero-inner">
+        <h1 class="hero-title">Display Photos from Your Pexels Gallery</h1>
+        <p class="hero-subtitle">
+          Connect directly to the Pexels REST API with custom Ruby service objects.
+          Enter a Pexels Collection ID or paste a collection URL below to view photos.
+        </p>
+
+        <!-- Collection Search Form -->
+        <%= form_with url: root_path, method: :get, local: true, class: "search-form" do |f| %>
+          <div class="search-input-group">
+            <div class="search-input-prefix">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+
+            <%= f.text_field :collection_id,
+              value: @raw_input,
+              placeholder: "Enter Collection ID (e.g. adkmjqz) or paste Collection URL...",
+              autocomplete: "off",
+              spellcheck: "false",
+              class: "search-input",
+              required: true %>
+
+            <%= f.submit "Load Gallery", class: "search-button" %>
+          </div>
+        <% end %>
+
+        <!-- Quick Select Pills -->
+        <div class="quick-pills">
+          <span class="pills-label">Quick try:</span>
+          <%= link_to root_path(demo: 1), class: "pill-btn demo-pill #{'active' if @is_demo}" do %>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Sample Demo Collection
+          <% end %>
+
+          <% if @featured_collections.present? %>
+            <% @featured_collections.each do |fc| %>
+              <%= link_to root_path(collection_id: fc["id"]), class: "pill-btn" do %>
+                <%= fc["title"] %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% unless @api_key_configured %>
+            <span class="pill-tip">Pro tip: Add <code>PEXELS_API_KEY</code> to <code>.env</code> to load live custom collections!</span>
+          <% end %>
+        </div>
+      </div>
+    </section>
+
+    <!-- Error / Warning Messages -->
+    <% if @error_message.present? %>
+      <div class="alert alert-danger" role="alert">
+        <div class="alert-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <div class="alert-body">
+          <h4 class="alert-heading">Collection Load Error</h4>
+          <p class="alert-text"><%= @error_message %></p>
+          <div class="alert-actions">
+            <%= link_to "Try Sample Demo Collection", root_path(demo: 1), class: "btn-subtle" %>
+            <% unless @api_key_configured %>
+              <span class="alert-subtext">Need an API key? Get one for free at <a href="https://www.pexels.com/api/key/" target="_blank" rel="noopener">pexels.com/api/key</a></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Demo Mode Notice -->
+    <% if @is_demo %>
+      <div class="alert alert-info">
+        <div class="alert-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        </div>
+        <div class="alert-body">
+          <h4 class="alert-heading">Demo Gallery Active</h4>
+          <p class="alert-text">
+            Viewing sample high-resolution Pexels photos. To fetch your personal collections live from Pexels, add your API key to <code>.env</code> as <code>PEXELS_API_KEY=your_key</code>.
+          </p>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Results Section -->
+    <% if @photos.present? %>
+      <section class="results-section">
+        <!-- Results Header Bar -->
+        <div class="results-header">
+          <div class="results-meta">
+            <h2 class="results-title">
+              <% if @is_demo %>
+                Demo Collection
+              <% else %>
+                Collection: <span class="collection-tag"><%= @collection_id %></span>
+              <% end %>
+            </h2>
+            <span class="results-count">
+              Showing <%= @photos.size %> <%= "photo".pluralize(@photos.size) %>
+              <% if @total_results > @photos.size %>
+                of <%= @total_results %> total
+              <% end %>
+            </span>
+          </div>
+
+          <!-- Pagination Controls -->
+          <div class="pagination-bar">
+            <% if @page > 1 %>
+              <%= link_to root_path(collection_id: @collection_id, page: @page - 1, per_page: @per_page), class: "btn-page" do %>
+                &larr; Previous Page
+              <% end %>
+            <% end %>
+
+            <span class="page-indicator">Page <%= @page %></span>
+
+            <% if !@is_demo && (@total_results > @page * @per_page || @photos.size == @per_page) %>
+              <%= link_to root_path(collection_id: @collection_id, page: @page + 1, per_page: @per_page), class: "btn-page" do %>
+                Next Page &rarr;
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Photo Grid Widget -->
+        <div class="photo-grid">
+          <% @photos.each do |photo| %>
+            <%
+              photo_id = photo["id"]
+              photographer = photo["photographer"].presence || "Pexels Creator"
+              photographer_url = photo["photographer_url"].presence || "https://www.pexels.com"
+              photo_url = photo["url"].presence || "https://www.pexels.com/photo/#{photo_id}/"
+              src_medium = photo.dig("src", "medium") || photo.dig("src", "large") || photo.dig("src", "original")
+              src_large = photo.dig("src", "large2x") || photo.dig("src", "large") || photo.dig("src", "original")
+              src_original = photo.dig("src", "original") || src_large
+              avg_color = photo["avg_color"].presence || "#262b32"
+              alt_text = photo["alt"].presence || "Photo by #{photographer} on Pexels"
+              width = photo["width"]
+              height = photo["height"]
+            %>
+
+            <article class="photo-card" style="--avg-color: <%= avg_color %>;">
+              <div class="photo-media-wrapper" style="background-color: <%= avg_color %>;">
+                <img
+                  src="<%= src_medium %>"
+                  alt="<%= alt_text %>"
+                  loading="lazy"
+                  class="photo-img"
+                  data-large="<%= src_large %>"
+                  data-original="<%= src_original %>"
+                  data-photographer="<%= photographer %>"
+                  data-photographer-url="<%= photographer_url %>"
+                  data-photo-url="<%= photo_url %>"
+                  data-alt="<%= alt_text %>"
+                  data-dimensions="<%= "#{width} × #{height}" if width && height %>"
+                  onclick="openLightbox(this)"
+                />
+
+                <div class="photo-overlay">
+                  <button type="button" class="btn-expand" onclick="openLightbox(this.closest('.photo-media-wrapper').querySelector('.photo-img'))" title="Expand Photo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <polyline points="9 21 3 21 3 15"></polyline>
+                      <line x1="21" y1="3" x2="14" y2="10"></line>
+                      <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="photo-details">
+                <div class="photographer-row">
+                  <div class="photographer-avatar" style="background-color: <%= avg_color %>;">
+                    <%= photographer.first.upcase rescue "P" %>
+                  </div>
+                  <div class="photographer-info">
+                    <a href="<%= photographer_url %>" target="_blank" rel="noopener noreferrer" class="photographer-name" title="View <%= photographer %>'s Pexels profile">
+                      <%= photographer %>
+                    </a>
+                    <span class="attribution-link">
+                      on <a href="<%= photo_url %>" target="_blank" rel="noopener noreferrer">Pexels</a>
+                    </span>
+                  </div>
+                </div>
+
+                <% if alt_text.present? && alt_text != "Photo by #{photographer} on Pexels" %>
+                  <p class="photo-caption" title="<%= alt_text %>">
+                    <%= truncate(alt_text, length: 75) %>
+                  </p>
+                <% end %>
+
+                <div class="photo-card-footer">
+                  <% if width.present? && height.present? %>
+                    <span class="dimen-badge"><%= "#{width} × #{height}" %></span>
+                  <% end %>
+                  <a href="<%= src_original %>" target="_blank" rel="noopener noreferrer" class="btn-download" title="Open full resolution in new tab">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Original
+                  </a>
+                </div>
+              </div>
+            </article>
+          <% end %>
+        </div>
+      </section>
+    <% elsif @collection_id.blank? %>
+      <!-- How It Works / Setup Guide -->
+      <section class="guide-section">
+        <h3 class="guide-title">How to Use the Pexels Gallery Widget</h3>
+        <p class="guide-lead">Follow these four simple steps to showcase photos from your own custom Pexels collection.</p>
+
+        <div class="guide-steps">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h4 class="step-heading">Create a Pexels Account</h4>
+            <p class="step-desc">
+              Go to <a href="https://www.pexels.com/" target="_blank" rel="noopener">pexels.com</a> and click the <strong>Join</strong> button to create your free account.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h4 class="step-heading">Generate an API Key</h4>
+            <p class="step-desc">
+              Navigate to <a href="https://www.pexels.com/api/key/" target="_blank" rel="noopener">pexels.com/api/key</a> and request your free API key. Store it in your <code>.env</code> file:
+              <code>PEXELS_API_KEY=your_key_here</code>
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h4 class="step-heading">Build a Collection</h4>
+            <p class="step-desc">
+              Browse photos on Pexels and click <strong>Collect</strong> to save them to a collection (e.g., "Nature", "Architecture", or "Portraits").
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <h4 class="step-heading">Copy & Paste Collection ID</h4>
+            <p class="step-desc">
+              Look at your collection's URL: <code>https://www.pexels.com/collections/nature-<b>adkmjqz</b>/</code>.
+              Copy the ID (e.g., <code>adkmjqz</code>) or the full URL and paste it into the search box above!
+            </p>
+          </div>
+        </div>
+
+        <div class="guide-cta">
+          <%= link_to root_path(demo: 1), class: "btn-primary-large" do %>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Explore Sample Gallery Demo
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+  </main>
+
+  <!-- Photo Lightbox Modal -->
+  <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox(event)">
+    <div class="lightbox-dialog" onclick="event.stopPropagation()">
+      <button type="button" class="lightbox-close" onclick="closeLightbox(event)" aria-label="Close modal">&times;</button>
+      
+      <div class="lightbox-content">
+        <div class="lightbox-image-container">
+          <img id="lightbox-img" src="" alt="" class="lightbox-img" />
+        </div>
+        
+        <div class="lightbox-sidebar">
+          <div class="lightbox-photographer-info">
+            <span class="lightbox-label">Photographer</span>
+            <h3 id="lightbox-photographer" class="lightbox-photographer-name"></h3>
+            <a id="lightbox-photographer-url" href="#" target="_blank" rel="noopener noreferrer" class="lightbox-profile-link">
+              View Profile on Pexels &rarr;
+            </a>
+          </div>
+
+          <div class="lightbox-details">
+            <div class="lightbox-detail-item">
+              <span class="lightbox-label">Caption / Alt</span>
+              <p id="lightbox-caption" class="lightbox-caption-text"></p>
+            </div>
+            
+            <div class="lightbox-detail-item" id="lightbox-dimen-container">
+              <span class="lightbox-label">Dimensions</span>
+              <span id="lightbox-dimensions" class="dimen-badge"></span>
+            </div>
+          </div>
+
+          <div class="lightbox-actions">
+            <a id="lightbox-photo-url" href="#" target="_blank" rel="noopener noreferrer" class="btn-primary-large">
+              View on Pexels
+            </a>
+            <a id="lightbox-original-url" href="#" target="_blank" rel="noopener noreferrer" class="btn-subtle">
+              Download Original
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer with Pexels Attribution -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-attribution">
+        <span>Photos provided by</span>
+        <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" class="pexels-logo-link">
+          <svg width="84" height="22" viewBox="0 0 100 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="28" rx="6" fill="#05A081"/>
+            <text x="50" y="19" fill="#ffffff" font-family="'Plus Jakarta Sans', sans-serif" font-weight="bold" font-size="14" text-anchor="middle" letter-spacing="1">PEXELS</text>
+          </svg>
+        </a>
+      </div>
+
+      <div class="footer-notes">
+        <span>The Odin Project: Ruby on Rails & Pexels API</span>
+        <span class="footer-divider">&bull;</span>
+        <span>Built with Ruby on Rails 7.2 & HTTParty</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  function openLightbox(imgElement) {
+    if (!imgElement) return;
+
+    var modal = document.getElementById("lightbox-modal");
+    var lightboxImg = document.getElementById("lightbox-img");
+    var photographerEl = document.getElementById("lightbox-photographer");
+    var photographerUrlEl = document.getElementById("lightbox-photographer-url");
+    var captionEl = document.getElementById("lightbox-caption");
+    var photoUrlEl = document.getElementById("lightbox-photo-url");
+    var originalUrlEl = document.getElementById("lightbox-original-url");
+    var dimensionsEl = document.getElementById("lightbox-dimensions");
+    var dimenContainer = document.getElementById("lightbox-dimen-container");
+
+    var largeSrc = imgElement.getAttribute("data-large") || imgElement.src;
+    var origSrc = imgElement.getAttribute("data-original") || largeSrc;
+    var photographer = imgElement.getAttribute("data-photographer") || "Pexels Creator";
+    var photographerUrl = imgElement.getAttribute("data-photographer-url") || "https://www.pexels.com";
+    var photoUrl = imgElement.getAttribute("data-photo-url") || "https://www.pexels.com";
+    var alt = imgElement.getAttribute("data-alt") || "";
+    var dimensions = imgElement.getAttribute("data-dimensions") || "";
+
+    lightboxImg.src = largeSrc;
+    lightboxImg.alt = alt;
+    photographerEl.textContent = photographer;
+    photographerUrlEl.href = photographerUrl;
+    captionEl.textContent = alt || "No caption provided.";
+    photoUrlEl.href = photoUrl;
+    originalUrlEl.href = origSrc;
+
+    if (dimensions) {
+      dimensionsEl.textContent = dimensions;
+      dimenContainer.style.display = "block";
+    } else {
+      dimenContainer.style.display = "none";
+    }
+
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox(event) {
+    var modal = document.getElementById("lightbox-modal");
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+    var lightboxImg = document.getElementById("lightbox-img");
+    lightboxImg.src = "";
+  }
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+      closeLightbox();
+    }
+  });
+</script>
+
