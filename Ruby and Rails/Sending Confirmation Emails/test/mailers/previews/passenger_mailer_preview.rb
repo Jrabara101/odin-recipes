@@ -23,3 +23,4 @@ class PassengerMailerPreview < ActionMailer::Preview
     passenger
   end
 end
+

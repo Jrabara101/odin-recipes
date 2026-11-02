@@ -20,3 +20,4 @@ class PassengerMailer < ApplicationMailer
     )
   end
 end
+

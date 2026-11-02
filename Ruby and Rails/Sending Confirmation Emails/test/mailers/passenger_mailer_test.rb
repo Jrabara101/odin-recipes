@@ -61,3 +61,4 @@ class PassengerMailerTest < ActionMailer::TestCase
     assert_includes email.subject, @booking.booking_reference
   end
 end
+
