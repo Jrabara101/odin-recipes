@@ -1,0 +1,50 @@
+=======================================================
+AERO AIRLINES - FLIGHT BOOKING CONFIRMATION
+=======================================================
+
+Hello <%= @passenger.name %>,
+
+Thank you for booking with Aero Airlines! Your flight reservation has been successfully confirmed.
+
+BOOKING REFERENCE: <%= @booking.booking_reference %>
+
+-------------------------------------------------------
+FLIGHT ITINERARY
+-------------------------------------------------------
+Flight Number:     <%= @flight.flight_number %>
+Flight Date:       <%= @flight.formatted_full_date %>
+Duration:          <%= @flight.formatted_duration %> (Non-stop)
+
+Departure:
+  Airport: <%= @departure_airport.name %> (<%= @departure_airport.code %>)
+  City:    <%= @departure_airport.city %>
+  Time:    <%= @flight.formatted_time %>
+
+Arrival:
+  Airport: <%= @arrival_airport.name %> (<%= @arrival_airport.code %>)
+  City:    <%= @arrival_airport.city %>
+  Time:    <%= @flight.formatted_arrival_time %>
+
+-------------------------------------------------------
+PASSENGER INFORMATION
+-------------------------------------------------------
+Passenger Name:  <%= @passenger.name %>
+Passenger Email: <%= @passenger.email %>
+Cabin Class:     Main Cabin
+Status:          CONFIRMED
+<% if @booking.passengers.count > 1 %>
+Traveling With:  <%= @booking.passengers.reject { |p| p.id == @passenger.id }.map(&:name).join(", ") %>
+<% end %>
+
+-------------------------------------------------------
+VIEW YOUR BOARDING PASS & ITINERARY ONLINE
+-------------------------------------------------------
+You can view your digital boarding pass and reservation details anytime at:
+<%= @url %>
+
+IMPORTANT TRAVEL INFORMATION:
+Please arrive at the airport at least 2 hours prior to scheduled departure. Please bring valid government-issued photo identification.
+
+Safe travels!
+Aero Airlines Customer Care Team
+=======================================================
