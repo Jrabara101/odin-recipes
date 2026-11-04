@@ -1,0 +1,31 @@
+<div class="card composer-card">
+  <%= form_with(model: post, local: true, class: "composer-form") do |f| %>
+    <% if post.errors.any? %>
+      <div class="alert alert-danger">
+        <%= post.errors.full_messages.to_sentence %>
+      </div>
+    <% end %>
+
+    <div class="composer-header">
+      <%= user_avatar(current_user, size: 40) %>
+      <%= f.text_area :content, 
+                      placeholder: "What's on your mind, #{current_user.first_name.presence || current_user.full_name.split.first}?", 
+                      class: "composer-textarea",
+                      rows: 3 %>
+    </div>
+
+    <div class="composer-footer">
+      <label class="file-upload-label" title="Attach an image">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+        </svg>
+        <span>Photo</span>
+        <%= f.file_field :image, accept: "image/*", class: "hidden-file-input", onchange: "if (this.files[0]) { document.getElementById('selected-file-name').textContent = this.files[0].name; }" %>
+      </label>
+      <span id="selected-file-name" style="font-size: 12px; color: var(--text-secondary); max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+
+      <%= f.submit "Post", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+

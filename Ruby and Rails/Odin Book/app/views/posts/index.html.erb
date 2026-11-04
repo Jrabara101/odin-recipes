@@ -1,0 +1,136 @@
+<div class="feed-layout">
+  <!-- Left Sidebar -->
+  <aside class="feed-sidebar-left">
+    <div class="card sidebar-profile-card">
+      <div class="sidebar-avatar-wrap">
+        <%= link_to user_path(current_user) do %>
+          <%= user_avatar(current_user, size: 72) %>
+        <% end %>
+      </div>
+      <h3 class="sidebar-name"><%= current_user.full_name %></h3>
+      <% if current_user.username.present? %>
+        <div class="sidebar-handle">@<%= current_user.username %></div>
+      <% end %>
+      <% if current_user.bio.present? %>
+        <p class="sidebar-bio"><%= current_user.bio %></p>
+      <% end %>
+
+      <div class="sidebar-stats">
+        <div class="sidebar-stat-item">
+          <strong><%= current_user.friends.count %></strong>
+          <span>Friends</span>
+        </div>
+        <div class="sidebar-stat-item">
+          <strong><%= current_user.posts.count %></strong>
+          <span>Posts</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 12px;">
+      <ul class="sidebar-nav-list">
+        <li class="sidebar-nav-item">
+          <%= link_to user_path(current_user) do %>
+            <span>&#128100;</span>
+            <span>My Profile</span>
+          <% end %>
+        </li>
+        <li class="sidebar-nav-item">
+          <%= link_to users_path(tab: "friends") do %>
+            <span>&#129309;</span>
+            <span>My Friends (<%= current_user.friends.count %>)</span>
+          <% end %>
+        </li>
+        <li class="sidebar-nav-item">
+          <%= link_to users_path do %>
+            <span>&#128101;</span>
+            <span>Find People</span>
+          <% end %>
+        </li>
+        <li class="sidebar-nav-item">
+          <%= link_to edit_user_path(current_user) do %>
+            <span>&#9881;</span>
+            <span>Settings</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Center Newsfeed -->
+  <section class="feed-center">
+    <%= render "posts/form", post: @post %>
+
+    <div id="posts-feed">
+      <% if @posts.any? %>
+        <% @posts.each do |post| %>
+          <%= render "posts/post", post: post %>
+        <% end %>
+      <% else %>
+        <div class="card empty-state">
+          <div class="empty-state-icon">&#128221;</div>
+          <h3 class="empty-state-title">No posts in your feed yet</h3>
+          <p class="empty-state-desc">Share an update above, or find friends to see what they are posting!</p>
+          <%= link_to "Find Friends", users_path, class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- Right Sidebar -->
+  <aside class="feed-sidebar-right">
+    <!-- Pending Friend Requests Widget -->
+    <% if @pending_requests.any? %>
+      <div class="card">
+        <h4 class="widget-title">Friend Requests</h4>
+        <% @pending_requests.each do |request| %>
+          <div class="widget-item">
+            <div class="widget-user-info">
+              <%= link_to user_path(request.sender) do %>
+                <%= user_avatar(request.sender, size: 40) %>
+              <% end %>
+              <div>
+                <%= link_to request.sender.full_name, user_path(request.sender), class: "widget-user-name" %>
+                <div class="widget-meta"><%= format_time_ago(request.created_at) %></div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 6px; margin-top: 8px;">
+              <%= button_to "Confirm", friendship_path(request, status: "accepted"), method: :patch, class: "btn btn-primary btn-sm" %>
+              <%= button_to "Delete", friendship_path(request), method: :delete, class: "btn btn-secondary btn-sm" %>
+            </div>
+          </div>
+        <% end %>
+        <div style="margin-top: 10px; text-align: center;">
+          <%= link_to "See all requests", users_path(tab: "requests"), style: "font-size: 13px; font-weight: 600;" %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Suggested Friends Widget -->
+    <% if @suggested_users.any? %>
+      <div class="card">
+        <h4 class="widget-title">People You May Know</h4>
+        <% @suggested_users.each do |user| %>
+          <div class="widget-item">
+            <div class="widget-user-info">
+              <%= link_to user_path(user) do %>
+                <%= user_avatar(user, size: 40) %>
+              <% end %>
+              <div>
+                <%= link_to user.full_name, user_path(user), class: "widget-user-name" %>
+                <div class="widget-meta"><%= pluralize(user.friends.count, "friend") %></div>
+              </div>
+            </div>
+            <div>
+              <%= button_to "Add Friend", friendships_path(receiver_id: user.id), method: :post, class: "btn btn-primary btn-sm" %>
+            </div>
+          </div>
+        <% end %>
+        <div style="margin-top: 10px; text-align: center;">
+          <%= link_to "Browse all users", users_path, style: "font-size: 13px; font-weight: 600;" %>
+        </div>
+      </div>
+    <% end %>
+  </aside>
+</div>
+

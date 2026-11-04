@@ -1,0 +1,12 @@
+<div class="new-comment-form">
+  <%= user_avatar(current_user, size: 32) %>
+  <%= form_with(model: [post, Comment.new], local: true, style: "flex: 1; display: flex; gap: 8px;") do |f| %>
+    <%= f.text_field :content, 
+                     id: "comment-input-#{post.id}", 
+                     placeholder: "Write a comment...", 
+                     class: "comment-input", 
+                     required: true %>
+    <%= f.submit "Reply", class: "btn btn-primary btn-sm" %>
+  <% end %>
+</div>
+

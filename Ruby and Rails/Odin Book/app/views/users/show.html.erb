@@ -1,0 +1,132 @@
+<div style="max-width: 960px; margin: 0 auto;">
+  <!-- Profile Header Card -->
+  <div class="card profile-header-card">
+    <div class="profile-cover"></div>
+    <div class="profile-info-row">
+      <div class="profile-main-info">
+        <div class="profile-avatar-bordered">
+          <%= user_avatar(@user, size: 128) %>
+        </div>
+        <div>
+          <h1 class="profile-name"><%= @user.full_name %></h1>
+          <% if @user.username.present? %>
+            <div class="profile-handle">@<%= @user.username %></div>
+          <% end %>
+          <div class="profile-friends-count">
+            <%= pluralize(@user.friends.count, "friend") %>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <% if @user == current_user %>
+          <%= link_to "Edit Profile", edit_user_path(@user), class: "btn btn-secondary" %>
+        <% else %>
+          <% status = current_user.friendship_status_with(@user) %>
+          <% case status %>
+          <% when :friends %>
+            <div style="display: flex; gap: 8px;">
+              <span class="btn btn-secondary" style="cursor: default;">&#10003; Friends</span>
+              <%= button_to "Unfriend", friendship_path(@friendship), method: :delete, data: { turbo_confirm: "Are you sure you want to unfriend #{@user.full_name}?" }, class: "btn btn-danger" %>
+            </div>
+          <% when :pending_sent %>
+            <div style="display: flex; gap: 8px;">
+              <span class="btn btn-secondary" style="cursor: default;">Request Sent</span>
+              <%= button_to "Cancel Request", friendship_path(@friendship), method: :delete, class: "btn btn-danger" %>
+            </div>
+          <% when :pending_received %>
+            <div style="display: flex; gap: 8px;">
+              <%= button_to "Confirm Request", friendship_path(@friendship, status: "accepted"), method: :patch, class: "btn btn-primary" %>
+              <%= button_to "Delete Request", friendship_path(@friendship), method: :delete, class: "btn btn-secondary" %>
+            </div>
+          <% else %>
+            <%= button_to "Add Friend", friendships_path(receiver_id: @user.id), method: :post, class: "btn btn-primary" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="profile-stats-bar">
+      <div><strong><%= @user.posts.count %></strong> Posts</div>
+      <div><strong><%= @user.friends.count %></strong> Friends</div>
+      <div><strong>Joined:</strong> <%= @user.created_at.strftime("%B %Y") %></div>
+    </div>
+  </div>
+
+  <!-- Profile Content Grid (Left: Bio & Friends preview, Right: Posts) -->
+  <div style="display: grid; grid-template-columns: 320px 1fr; gap: 24px; align-items: start;">
+    <!-- Left Column: About & Friends -->
+    <div>
+      <div class="card">
+        <h3 style="font-size: 16px; margin-bottom: 12px; font-weight: 700;">Intro</h3>
+        <% if @user.bio.present? %>
+          <p style="font-size: 14px; margin-bottom: 12px; line-height: 1.5;"><%= @user.bio %></p>
+        <% else %>
+          <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 12px;">No bio added yet.</p>
+        <% end %>
+        <div style="font-size: 13px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 6px;">
+          <div>&#128231; <%= @user.email %></div>
+          <div>&#128197; Joined <%= @user.created_at.strftime("%B %Y") %></div>
+        </div>
+        <% if @user == current_user %>
+          <div style="margin-top: 14px;">
+            <%= link_to "Edit Details", edit_user_path(@user), class: "btn btn-secondary btn-sm", style: "width: 100%;" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Friends preview card -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h3 style="font-size: 16px; font-weight: 700;">Friends</h3>
+            <span style="font-size: 12px; color: var(--text-secondary);"><%= pluralize(@user.friends.count, "friend") %></span>
+          </div>
+          <% if @user == current_user %>
+            <%= link_to "See all", users_path(tab: "friends"), style: "font-size: 13px;" %>
+          <% end %>
+        </div>
+
+        <% if @friends.any? %>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <% @friends.each do |friend| %>
+              <div style="text-align: center;">
+                <%= link_to user_path(friend) do %>
+                  <%= user_avatar(friend, size: 64) %>
+                  <div style="font-size: 11px; font-weight: 600; color: var(--text); margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <%= friend.full_name %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p style="font-size: 13px; color: var(--text-secondary);">No friends to display.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Right Column: User Posts -->
+    <div>
+      <% if @user == current_user %>
+        <%= render "posts/form", post: Post.new %>
+      <% end %>
+
+      <div style="margin-bottom: 16px;">
+        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Posts</h3>
+        <% if @posts.any? %>
+          <% @posts.each do |post| %>
+            <%= render "posts/post", post: post %>
+          <% end %>
+        <% else %>
+          <div class="card empty-state">
+            <div class="empty-state-icon">&#128221;</div>
+            <h4 class="empty-state-title">No posts yet</h4>
+            <p class="empty-state-desc"><%= @user == current_user ? "Create your first post above!" : "#{@user.full_name} hasn't posted anything yet." %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

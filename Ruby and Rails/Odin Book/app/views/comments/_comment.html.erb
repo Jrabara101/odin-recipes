@@ -1,0 +1,20 @@
+<div class="comment-item" id="comment-<%= comment.id %>">
+  <%= link_to user_path(comment.user) do %>
+    <%= user_avatar(comment.user, size: 32) %>
+  <% end %>
+
+  <div class="comment-body">
+    <div class="comment-bubble">
+      <%= link_to comment.user.full_name, user_path(comment.user), class: "comment-author" %>
+      <div class="comment-text"><%= comment.content %></div>
+    </div>
+    <div class="comment-meta">
+      <span><%= format_time_ago(comment.created_at) %></span>
+      <% if comment.user == current_user || comment.post.user == current_user %>
+        &middot;
+        <%= button_to "Delete", post_comment_path(comment.post, comment), method: :delete, data: { turbo_confirm: "Delete this comment?" }, class: "comment-delete-link", style: "background:none; border:none; padding:0; font-size:11px; text-decoration:underline;" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+

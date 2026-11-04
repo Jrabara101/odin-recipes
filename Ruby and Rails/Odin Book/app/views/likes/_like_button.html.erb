@@ -1,0 +1,37 @@
+<div id="like-section-<%= post.id %>">
+  <div class="post-stats">
+    <div class="like-indicator">
+      <span class="like-icon-circle">&#128077;</span>
+      <span id="like-count-<%= post.id %>">
+        <% count = post.likes.count %>
+        <%= pluralize(count, "Like") %>
+      </span>
+    </div>
+    <div class="comment-count-indicator">
+      <span><%= pluralize(post.comments.count, "Comment") %></span>
+    </div>
+  </div>
+
+  <div class="post-actions">
+    <% if post.liked_by?(current_user) %>
+      <% like = post.like_from(current_user) %>
+      <%= button_to post_like_path(post, like), method: :delete, class: "action-btn liked", title: "Unlike this post" do %>
+        <span style="font-size: 16px;">&#128077;</span>
+        <span>Liked</span>
+      <% end %>
+    <% else %>
+      <%= button_to post_likes_path(post), method: :post, class: "action-btn", title: "Like this post" do %>
+        <span style="font-size: 16px;">&#128077;</span>
+        <span>Like</span>
+      <% end %>
+    <% end %>
+
+    <button type="button" class="action-btn" onclick="document.getElementById('comment-input-<%= post.id %>').focus();">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+      </svg>
+      <span>Comment</span>
+    </button>
+  </div>
+</div>
+

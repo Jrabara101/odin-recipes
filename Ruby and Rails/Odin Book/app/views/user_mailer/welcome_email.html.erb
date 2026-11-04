@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 24px;
+        color: #1c1e21;
+      }
+      .card {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 32px;
+        max-width: 520px;
+        margin: 0 auto;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+      .logo {
+        color: #1877f2;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      .btn {
+        display: inline-block;
+        background-color: #1877f2;
+        color: #ffffff !important;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        margin-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="logo">OdinBook</div>
+      <h2>Welcome to OdinBook, <%= @user.full_name %>!</h2>
+      <p>We are thrilled to have you join our social network community.</p>
+      <p>Here are a few things you can do to get started:</p>
+      <ul>
+        <li>Customize your profile and upload an avatar</li>
+        <li>Connect with other users by sending friend requests</li>
+        <li>Share your thoughts, photos, and life updates with posts</li>
+        <li>Like and comment on your friends' posts</li>
+      </ul>
+      <p>
+        <a href="<%= @url %>" class="btn">Go to your Feed</a>
+      </p>
+      <p style="color: #65676b; font-size: 13px; margin-top: 32px;">
+        Happy networking,<br/>The OdinBook Team
+      </p>
+    </div>
+  </body>
+</html>
+

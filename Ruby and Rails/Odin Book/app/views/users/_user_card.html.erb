@@ -1,0 +1,59 @@
+<div class="card user-card">
+  <div class="user-card-avatar">
+    <%= link_to user_path(user) do %>
+      <%= user_avatar(user, size: 84) %>
+    <% end %>
+  </div>
+
+  <h4 class="user-card-name">
+    <%= link_to user.full_name, user_path(user), style: "color: inherit;" %>
+  </h4>
+
+  <% if user.username.present? %>
+    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">
+      @<%= user.username %>
+    </div>
+  <% end %>
+
+  <% if user.bio.present? %>
+    <p class="user-card-bio"><%= user.bio %></p>
+  <% end %>
+
+  <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px;">
+    <%= pluralize(user.friends.count, "friend") %>
+  </div>
+
+  <div class="user-card-actions">
+    <% status = current_user.friendship_status_with(user) %>
+
+    <% case status %>
+    <% when :self %>
+      <%= link_to "View Profile", user_path(user), class: "btn btn-secondary btn-sm", style: "width: 100%;" %>
+
+    <% when :friends %>
+      <div style="display: flex; gap: 6px;">
+        <span class="btn btn-secondary btn-sm" style="flex: 1; cursor: default;">&#10003; Friends</span>
+        <% friendship = current_user.friendship_with(user) %>
+        <%= button_to "Unfriend", friendship_path(friendship), method: :delete, data: { turbo_confirm: "Are you sure you want to unfriend #{user.full_name}?" }, class: "btn btn-danger btn-sm" %>
+      </div>
+
+    <% when :pending_sent %>
+      <% friendship = current_user.friendship_with(user) %>
+      <div style="display: flex; gap: 6px;">
+        <span class="btn btn-secondary btn-sm" style="flex: 1; cursor: default;">Requested</span>
+        <%= button_to "Cancel", friendship_path(friendship), method: :delete, class: "btn btn-danger btn-sm" %>
+      </div>
+
+    <% when :pending_received %>
+      <% friendship = current_user.friendship_with(user) %>
+      <div style="display: flex; gap: 6px;">
+        <%= button_to "Confirm", friendship_path(friendship, status: "accepted"), method: :patch, class: "btn btn-primary btn-sm", style: "flex: 1;" %>
+        <%= button_to "Delete", friendship_path(friendship), method: :delete, class: "btn btn-secondary btn-sm" %>
+      </div>
+
+    <% else %>
+      <%= button_to "Add Friend", friendships_path(receiver_id: user.id), method: :post, class: "btn btn-primary btn-sm", style: "width: 100%;" %>
+    <% end %>
+  </div>
+</div>
+
