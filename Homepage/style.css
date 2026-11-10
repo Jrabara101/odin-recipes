@@ -1,0 +1,740 @@
+/* ==========================================================================
+   ASHLEY WILLIAMS - PORTFOLIO HOMEPAGE STYLESHEET
+   The Odin Project: Advanced HTML & CSS Homepage Project
+   Fully responsive across 320px to 1920px viewports
+   ========================================================================== */
+
+/* ==========================================================================
+   CSS CUSTOM PROPERTIES (DESIGN SYSTEM)
+   ========================================================================== */
+:root {
+  /* Brand & Layout Colors (Extracted directly from project design specs) */
+  --color-primary: #0891b2;         /* Vibrant Cyan/Teal background accent */
+  --color-primary-dark: #0e7490;    /* Deep Cyan */
+  --color-text-main: #1e293b;       /* Slate 800 - Headlines & high contrast */
+  --color-text-muted: #475569;      /* Slate 600 - Body & descriptions */
+  --color-text-light: #ffffff;      /* Pure white for overlays & dark sections */
+  --color-body-bg: #ffffff;         /* Pure white page background */
+  --color-card-bg: #ffffff;         /* White card background */
+
+  /* Project Card Preview Colors (Matched to design mockup) */
+  --project-red: #9e1c1c;
+  --project-purple: #7c75ca;
+  --project-green: #5e8f4d;
+  --project-pink: #c363b4;
+  --project-orange: #d88f39;
+  --project-blue: #4ba2d2;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  /* Elevation & Shadows */
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-elevated: 0 16px 36px rgba(0, 0, 0, 0.16), 0 4px 10px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+
+  /* Layout Containers */
+  --container-max-width: 1240px;
+  --transition-normal: 0.25s ease;
+}
+
+/* ==========================================================================
+   RESET & BASE STYLES
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-main);
+  background-color: var(--color-body-bg);
+  line-height: 1.6;
+  min-width: 320px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* ==========================================================================
+   HERO / HEADER SECTION
+   ========================================================================== */
+.hero-section {
+  position: relative;
+  width: 100%;
+  padding-bottom: 3.5rem;
+  overflow: hidden;
+}
+
+/* Diagonal Background Accent */
+.hero-bg-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 520px;
+  background-color: var(--color-primary);
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 78%);
+  z-index: 0;
+}
+
+.hero-container {
+  position: relative;
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  z-index: 1;
+}
+
+/* Tablet Name (hidden on desktop and mobile) */
+.hero-name.tablet-name {
+  display: none;
+}
+
+/* Hero Main Card */
+.hero-card {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+/* Hero Portrait Image Box */
+.hero-image-wrapper {
+  position: relative;
+  flex: 0 0 450px;
+  z-index: 2;
+  box-shadow: var(--shadow-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+  background-color: #cbd5e1;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Hero Name overlaid on photo */
+.hero-name.mobile-desktop-name {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.75rem;
+  right: 1.75rem;
+  margin: 0;
+  color: var(--color-text-light);
+  font-family: var(--font-serif);
+  font-size: 2.85rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+/* About Me Card */
+.hero-about {
+  position: relative;
+  flex: 1;
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-card);
+  padding: 4rem 4rem 3.5rem 5.5rem;
+  margin-left: -50px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 2px;
+}
+
+.about-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.about-text {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--color-text-muted);
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.hero-socials {
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #181616;
+  transition: transform var(--transition-normal), color var(--transition-normal);
+}
+
+.social-link:hover {
+  color: var(--color-primary);
+  transform: translateY(-2px) scale(1.1);
+}
+
+.social-icon {
+  width: 28px;
+  height: 28px;
+}
+
+/* ==========================================================================
+   WORK / PROJECTS SECTION
+   ========================================================================== */
+.work-section {
+  padding-top: 3.5rem;
+  padding-bottom: 7rem;
+  background-color: var(--color-body-bg);
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 2.75rem;
+  letter-spacing: -0.01em;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+/* Project Card */
+.project-card {
+  background: var(--color-card-bg);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Preview Image Area with Centered Serif Typography */
+.project-preview {
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-text-light);
+  padding: 1.5rem;
+}
+
+.preview-text {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  line-height: 1.25;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+/* Color Themes for Project Mockups */
+.bg-red {
+  background-color: var(--project-red);
+}
+
+.bg-purple {
+  background-color: var(--project-purple);
+}
+
+.bg-green {
+  background-color: var(--project-green);
+}
+
+.bg-pink {
+  background-color: var(--project-pink);
+}
+
+.bg-orange {
+  background-color: var(--project-orange);
+}
+
+.bg-blue {
+  background-color: var(--project-blue);
+}
+
+/* Project Information Body */
+.project-body {
+  padding: 1.25rem 1.5rem 1.75rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.65rem;
+}
+
+.project-name {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.project-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-main);
+  transition: color var(--transition-normal), transform var(--transition-normal);
+}
+
+.action-btn:hover {
+  color: var(--color-primary);
+  transform: scale(1.15);
+}
+
+.action-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.project-desc {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   CONTACT / FOOTER SECTION
+   ========================================================================== */
+.contact-section {
+  width: 100%;
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+}
+
+.contact-container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 4.5rem 2rem 5rem;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* Contact Info Column */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-title {
+  font-family: var(--font-serif);
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.contact-intro {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-light);
+  margin-bottom: 2rem;
+  max-width: 440px;
+}
+
+.contact-address {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-text-light);
+  margin-bottom: 2rem;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  margin-bottom: 2.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.05rem;
+}
+
+.contact-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--color-text-light);
+  flex-shrink: 0;
+}
+
+.contact-link {
+  color: var(--color-text-light);
+  transition: opacity var(--transition-normal);
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+/* Contact Social Icons */
+.contact-socials {
+  margin-top: 0.5rem;
+}
+
+.contact-social-link {
+  color: #181616; /* Dark black icons as seen in the design mockup */
+}
+
+.contact-social-link:hover {
+  color: #000000;
+  transform: translateY(-2px) scale(1.15);
+}
+
+.contact-social-link .social-icon {
+  width: 32px;
+  height: 32px;
+}
+
+/* Contact Portrait Image */
+.contact-image-wrapper {
+  position: relative;
+  box-shadow: var(--shadow-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+  background-color: #cbd5e1;
+}
+
+.contact-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE DESIGN: TABLET VIEWPORT (768px - 1080px)
+   ========================================================================== */
+@media screen and (min-width: 768px) and (max-width: 1080px) {
+  /* Angled Banner */
+  .hero-bg-accent {
+    height: 480px;
+    clip-path: polygon(0 0, 100% 0, 100% 28%, 0 68%);
+  }
+
+  .hero-container {
+    max-width: 900px;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  /* Display Ashley Williams at the top right of the teal band */
+  .hero-name.tablet-name {
+    display: block;
+    text-align: right;
+    color: var(--color-text-light);
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Hide name overlaid on photo */
+  .hero-name.mobile-desktop-name {
+    display: none;
+  }
+
+  /* White Card Container */
+  .hero-card {
+    display: block;
+    background: var(--color-card-bg);
+    box-shadow: var(--shadow-card);
+    padding: 3.5rem 3rem 2.5rem;
+    border-radius: 2px;
+    position: relative;
+    margin-top: 3.5rem;
+  }
+
+  /* Float Photo on top left so text wraps around it */
+  .hero-image-wrapper {
+    float: left;
+    width: 330px;
+    height: 430px;
+    margin-top: -6rem;
+    margin-left: -1.5rem;
+    margin-right: 2.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-elevated);
+    border-radius: 2px;
+  }
+
+  .hero-about {
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+    background: transparent;
+  }
+
+  .about-title {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+  }
+
+  .about-text {
+    line-height: 1.75;
+  }
+
+  .hero-socials {
+    clear: both;
+    justify-content: flex-end;
+    padding-top: 1.5rem;
+  }
+
+  /* Projects Grid: 2 Columns x 3 Rows */
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  /* Contact Section: 2 Columns */
+  .contact-container {
+    max-width: 900px;
+    padding: 4rem 2rem 4rem;
+    gap: 3rem;
+  }
+}
+
+
+/* ==========================================================================
+   RESPONSIVE DESIGN: MOBILE VIEWPORT (max-width: 767px)
+   ========================================================================== */
+@media screen and (max-width: 767px) {
+  /* Angled Banner */
+  .hero-bg-accent {
+    height: 340px;
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 75%);
+  }
+
+  .hero-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .hero-name.tablet-name {
+    display: none;
+  }
+
+  /* Hero Card: Stacked column */
+  .hero-card {
+    flex-direction: column;
+    align-items: center;
+    background: var(--color-card-bg);
+    box-shadow: var(--shadow-card);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .hero-image-wrapper {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .hero-image {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+  }
+
+  .hero-name.mobile-desktop-name {
+    display: block;
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1rem;
+    right: 1rem;
+    text-align: center;
+    font-size: clamp(2rem, 8vw, 2.75rem);
+  }
+
+  .hero-about {
+    margin: 0;
+    padding: 2.5rem 1.5rem 2rem;
+    box-shadow: none;
+    text-align: center;
+  }
+
+  .about-title {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .about-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  .hero-socials {
+    justify-content: center;
+    margin-top: 1.75rem;
+  }
+
+  /* Work Section: Centered header, single column grid */
+  .work-section {
+    padding-top: 2.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .work-section .section-title {
+    text-align: center;
+    font-size: 2.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .container {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  /* Contact Section: Stacked column */
+  .contact-container {
+    display: flex;
+    flex-direction: column;
+    padding: 3.5rem 1.25rem 0;
+    gap: 2.5rem;
+  }
+
+  .contact-title {
+    font-size: 2.25rem;
+  }
+
+  .contact-image-wrapper {
+    width: calc(100% + 2.5rem);
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .contact-image {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+  }
+}
+
+/* ==========================================================================
+   EXTRA-LARGE DESKTOP (1441px - 1920px+)
+   ========================================================================== */
+@media screen and (min-width: 1441px) {
+  :root {
+    --container-max-width: 1320px;
+  }
+
+  .hero-image-wrapper {
+    flex: 0 0 480px;
+  }
+
+  .hero-bg-accent {
+    height: 560px;
+  }
+
+  .project-preview {
+    height: 260px;
+  }
+}
