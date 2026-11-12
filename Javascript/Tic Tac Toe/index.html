@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browser Tic Tac Toe game built with JavaScript factory functions and the module pattern.">
+  <title>Tic Tac Toe</title>
+
+  <!-- Google Fonts: Space Grotesk & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <p class="eyebrow">Two-Player Strategy</p>
+      <h1 class="title">Tic Tac Toe</h1>
+    </header>
+
+    <section class="game-panel" aria-label="Game controls and board">
+      <!-- Player Name Setup & Start/Restart -->
+      <form id="player-form" class="player-setup" autocomplete="off">
+        <div class="player-input-group is-x">
+          <label for="player-x-name">
+            <span class="marker-chip marker-x" aria-hidden="true">X</span>
+            Player 1
+          </label>
+          <input
+            type="text"
+            id="player-x-name"
+            name="playerX"
+            placeholder="Player 1"
+            maxlength="20"
+            value="Player 1"
+          >
+        </div>
+
+        <div class="player-input-group is-o">
+          <label for="player-o-name">
+            <span class="marker-chip marker-o" aria-hidden="true">O</span>
+            Player 2
+          </label>
+          <input
+            type="text"
+            id="player-o-name"
+            name="playerO"
+            placeholder="Player 2"
+            maxlength="20"
+            value="Player 2"
+          >
+        </div>
+
+        <button type="submit" id="restart-btn" class="btn btn-primary">
+          Start / Restart
+        </button>
+      </form>
+
+      <!-- Scoreboard -->
+      <div class="scoreboard" aria-label="Match scoreboard">
+        <div id="score-card-x" class="score-card is-x is-turn">
+          <span id="score-label-x" class="score-name">Player 1 (X)</span>
+          <strong id="score-value-x" class="score-value">0</strong>
+        </div>
+
+        <div class="score-card is-ties">
+          <span class="score-name">Ties</span>
+          <strong id="score-value-ties" class="score-value">0</strong>
+        </div>
+
+        <div id="score-card-o" class="score-card is-o">
+          <span id="score-label-o" class="score-name">Player 2 (O)</span>
+          <strong id="score-value-o" class="score-value">0</strong>
+        </div>
+      </div>
+
+      <!-- Status / Result Display -->
+      <div id="status-banner" class="status-banner" role="status" aria-live="polite">
+        Player 1's turn (X)
+      </div>
+
+      <!-- 3x3 Gameboard -->
+      <div id="gameboard" class="gameboard" role="grid" aria-label="Tic Tac Toe board">
+        <button type="button" class="cell" data-index="0" aria-label="Row 1, Column 1: empty"></button>
+        <button type="button" class="cell" data-index="1" aria-label="Row 1, Column 2: empty"></button>
+        <button type="button" class="cell" data-index="2" aria-label="Row 1, Column 3: empty"></button>
+        <button type="button" class="cell" data-index="3" aria-label="Row 2, Column 1: empty"></button>
+        <button type="button" class="cell" data-index="4" aria-label="Row 2, Column 2: empty"></button>
+        <button type="button" class="cell" data-index="5" aria-label="Row 2, Column 3: empty"></button>
+        <button type="button" class="cell" data-index="6" aria-label="Row 3, Column 1: empty"></button>
+        <button type="button" class="cell" data-index="7" aria-label="Row 3, Column 2: empty"></button>
+        <button type="button" class="cell" data-index="8" aria-label="Row 3, Column 3: empty"></button>
+      </div>
+
+      <div class="panel-footer">
+        <button type="button" id="reset-scores-btn" class="btn btn-ghost">
+          Reset Scores
+        </button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+
