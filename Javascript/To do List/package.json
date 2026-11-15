@@ -1,0 +1,32 @@
+{
+  "name": "odin-todo-list",
+  "version": "1.0.0",
+  "description": "A feature-rich, modular Todo List application built with Vanilla JavaScript, Webpack, date-fns, and LocalStorage for The Odin Project",
+  "private": true,
+  "scripts": {
+    "build": "webpack --mode production",
+    "watch": "webpack --watch",
+    "start": "webpack serve --open"
+  },
+  "keywords": [
+    "the-odin-project",
+    "todo-list",
+    "javascript",
+    "webpack",
+    "date-fns",
+    "localstorage"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^7.1.5",
+    "html-webpack-plugin": "^5.6.8",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.112.2",
+    "webpack-cli": "^7.3.1",
+    "webpack-dev-server": "^6.1.0"
+  },
+  "dependencies": {
+    "date-fns": "^4.4.0"
+  }
+}
