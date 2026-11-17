@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="fog-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94A3B8" stop-opacity="0.4" />
+      <stop offset="50%" stop-color="#CBD5E1" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#94A3B8" stop-opacity="0.4" />
+    </linearGradient>
+  </defs>
+  <g stroke="url(#fog-grad)" stroke-width="3.5" stroke-linecap="round">
+    <line x1="12" y1="20" x2="52" y2="20" />
+    <line x1="8" y1="28" x2="56" y2="28" />
+    <line x1="14" y1="36" x2="50" y2="36" />
+    <line x1="10" y1="44" x2="54" y2="44" />
+    <line x1="18" y1="52" x2="46" y2="52" />
+  </g>
+</svg>

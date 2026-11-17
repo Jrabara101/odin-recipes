@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="snow-cloud" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E2E8F0" />
+      <stop offset="100%" stop-color="#94A3B8" />
+    </linearGradient>
+  </defs>
+  <!-- Cloud -->
+  <path d="M19 36 C14 36 10 32 10 27 C10 22.5 13.5 18.8 18 18.2 C19.6 11.5 25.7 6.5 33 6.5 C41.8 6.5 49 13.7 49 22.5 C52.5 23.2 55 26.3 55 30 C55 34.4 51.4 38 47 38 L19 38 Z" fill="url(#snow-cloud)" />
+  <!-- Snowflakes -->
+  <g stroke="#93C5FD" stroke-width="2" stroke-linecap="round">
+    <!-- Flake 1 -->
+    <g transform="translate(20, 46)">
+      <line x1="-3" y1="0" x2="3" y2="0" />
+      <line x1="0" y1="-3" x2="0" y2="3" />
+      <line x1="-2" y1="-2" x2="2" y2="2" />
+      <line x1="-2" y1="2" x2="2" y2="-2" />
+    </g>
+    <!-- Flake 2 -->
+    <g transform="translate(32, 49)">
+      <line x1="-3.5" y1="0" x2="3.5" y2="0" />
+      <line x1="0" y1="-3.5" x2="0" y2="3.5" />
+      <line x1="-2.5" y1="-2.5" x2="2.5" y2="2.5" />
+      <line x1="-2.5" y1="2.5" x2="2.5" y2="-2.5" />
+    </g>
+    <!-- Flake 3 -->
+    <g transform="translate(44, 46)">
+      <line x1="-3" y1="0" x2="3" y2="0" />
+      <line x1="0" y1="-3" x2="0" y2="3" />
+      <line x1="-2" y1="-2" x2="2" y2="2" />
+      <line x1="-2" y1="2" x2="2" y2="-2" />
+    </g>
+    <!-- Flake 4 -->
+    <g transform="translate(26, 56)">
+      <line x1="-2.5" y1="0" x2="2.5" y2="0" />
+      <line x1="0" y1="-2.5" x2="0" y2="2.5" />
+    </g>
+    <!-- Flake 5 -->
+    <g transform="translate(38, 56)">
+      <line x1="-2.5" y1="0" x2="2.5" y2="0" />
+      <line x1="0" y1="-2.5" x2="0" y2="2.5" />
+    </g>
+  </g>
+</svg>

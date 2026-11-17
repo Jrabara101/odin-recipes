@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="pcn-moon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF9D2" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+    <linearGradient id="pcn-cloud" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F1F5F9" />
+      <stop offset="100%" stop-color="#CBD5E1" />
+    </linearGradient>
+    <filter id="pcn-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-opacity="0.2" />
+    </filter>
+  </defs>
+  <!-- Moon behind -->
+  <path d="M26 12 C18 12 12 18.5 12 26.5 C12 34.5 18 41 26 41 C29.5 41 32.7 39.7 35.2 37.6 C24.5 37 19.5 28 22.2 17.5 C23.4 15.2 25 13.3 27 12 C26.7 12 26.3 12 26 12 Z" fill="url(#pcn-moon)" />
+  <path d="M38 14 L38.6 15.5 L40 16 L38.6 16.5 L38 18 L37.4 16.5 L36 16 L37.4 15.5 Z" fill="#FDE68A" />
+  <!-- Cloud in front -->
+  <path filter="url(#pcn-shadow)" d="M22 52 C17 52 13 48 13 43 C13 38.6 16.2 35 20.4 34.2 C22 27.5 28 22.5 35 22.5 C43.3 22.5 50 29.2 50 37.5 C50 38 49.9 38.5 49.8 39 C52.8 39.8 55 42.6 55 46 C55 50 51.6 53 47.5 53 L22 53 Z" fill="url(#pcn-cloud)" />
+</svg>

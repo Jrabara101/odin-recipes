@@ -1,0 +1,29 @@
+{
+  "name": "odin-weather-app",
+  "version": "1.0.0",
+  "description": "A modern, responsive Weather Forecast application built with Vanilla JavaScript, Webpack, and Visual Crossing Weather API for The Odin Project",
+  "private": true,
+  "scripts": {
+    "build": "webpack --mode production",
+    "watch": "webpack --watch",
+    "start": "webpack serve --open"
+  },
+  "keywords": [
+    "the-odin-project",
+    "weather-app",
+    "javascript",
+    "webpack",
+    "visual-crossing-api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^7.1.5",
+    "date-fns": "^4.4.0",
+    "html-webpack-plugin": "^5.6.8",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.112.2",
+    "webpack-cli": "^7.3.1",
+    "webpack-dev-server": "^6.1.0"
+  }
+}

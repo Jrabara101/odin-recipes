@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="rain-cloud" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#94A3B8" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+    <linearGradient id="drop-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+  </defs>
+  <!-- Cloud -->
+  <path d="M19 38 C14.5 38 11 34.5 11 30 C11 25.9 14.1 22.5 18.1 22.1 C19.6 16.1 25.1 11.5 31.5 11.5 C39.5 11.5 46 18 46 26 C49.2 26.6 51.5 29.5 51.5 33 C51.5 37 48.2 40 44.5 40 L19 40 Z" fill="url(#rain-cloud)" />
+  <!-- Raindrops -->
+  <g stroke="url(#drop-grad)" stroke-width="2.5" stroke-linecap="round">
+    <line x1="20" y1="45" x2="17" y2="54" />
+    <line x1="28" y1="45" x2="25" y2="54" />
+    <line x1="36" y1="45" x2="33" y2="54" />
+    <line x1="44" y1="45" x2="41" y2="54" />
+    <line x1="24" y1="52" x2="21" y2="60" />
+    <line x1="32" y1="52" x2="29" y2="60" />
+    <line x1="40" y1="52" x2="37" y2="60" />
+  </g>
+</svg>

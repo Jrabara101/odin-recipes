@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="hail-cloud" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#94A3B8" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+    <linearGradient id="pellet-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#93C5FD" />
+    </linearGradient>
+  </defs>
+  <!-- Cloud -->
+  <path d="M19 36 C14 36 10 32 10 27 C10 22.5 13.5 18.8 18 18.2 C19.6 11.5 25.7 6.5 33 6.5 C41.8 6.5 49 13.7 49 22.5 C52.5 23.2 55 26.3 55 30 C55 34.4 51.4 38 47 38 L19 38 Z" fill="url(#hail-cloud)" />
+  <!-- Hail pellets -->
+  <g fill="url(#pellet-grad)" stroke="#3B82F6" stroke-width="1">
+    <circle cx="20" cy="46" r="3" />
+    <circle cx="32" cy="48" r="3.5" />
+    <circle cx="44" cy="45" r="3" />
+    <circle cx="26" cy="56" r="3" />
+    <circle cx="38" cy="55" r="3" />
+  </g>
+</svg>

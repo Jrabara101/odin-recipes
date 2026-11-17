@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="storm-cloud" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#475569" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+    <linearGradient id="bolt-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF08A" />
+      <stop offset="100%" stop-color="#EAB308" />
+    </linearGradient>
+    <filter id="bolt-glow">
+      <feGaussianBlur stdDeviation="1.5" result="glow" />
+      <feComposite in="SourceGraphic" in2="glow" operator="over" />
+    </filter>
+  </defs>
+  <!-- Storm cloud -->
+  <path d="M19 36 C14 36 10 32 10 27 C10 22.5 13.5 18.8 18 18.2 C19.6 11.5 25.7 6.5 33 6.5 C41.8 6.5 49 13.7 49 22.5 C52.5 23.2 55 26.3 55 30 C55 34.4 51.4 38 47 38 L19 38 Z" fill="url(#storm-cloud)" />
+  <!-- Lightning bolt -->
+  <polygon filter="url(#bolt-glow)" points="32,28 24,42 32,42 28,58 42,38 34,38" fill="url(#bolt-grad)" stroke="#CA8A04" stroke-width="0.8" />
+  <!-- Raindrops -->
+  <g stroke="#38BDF8" stroke-width="2" stroke-linecap="round">
+    <line x1="16" y1="44" x2="13" y2="52" />
+    <line x1="46" y1="44" x2="43" y2="52" />
+    <line x1="20" y1="50" x2="17" y2="58" />
+    <line x1="48" y1="50" x2="45" y2="58" />
+  </g>
+</svg>

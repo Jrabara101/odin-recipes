@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WeatherPulse | Modern Forecast App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body data-theme="partly-cloudy-day" data-time-of-day="day">
+  <div id="ambient-particles" aria-hidden="true"></div>
+
+  <div class="app-layout" id="app">
+    <!-- Navigation Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+          </svg>
+        </div>
+        <span class="brand-name">WeatherPulse</span>
+      </div>
+
+      <!-- Search Form -->
+      <form class="search-form" id="search-form" role="search" autocomplete="off">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="Search city, zip code, or landmark..."
+            required
+          />
+          <button type="button" id="geo-btn" class="geo-btn" title="Use current location" aria-label="Use current location">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+            </svg>
+          </button>
+        </div>
+        <button type="submit" class="search-submit-btn" id="search-submit">
+          <span>Search</span>
+        </button>
+      </form>
+
+      <!-- Controls: Unit Switch & Settings -->
+      <div class="header-controls">
+        <div class="unit-switch-container">
+          <span class="unit-label-tag">°C</span>
+          <label class="toggle-switch" for="unit-toggle">
+            <input type="checkbox" id="unit-toggle" aria-label="Toggle temperature unit between Celsius and Fahrenheit" />
+            <span class="slider"></span>
+          </label>
+          <span class="unit-label-tag">°F</span>
+        </div>
+
+        <button type="button" id="settings-btn" class="icon-btn" title="API Settings" aria-label="Open settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Quick Location Chips -->
+    <section class="quick-chips-section" aria-label="Quick city suggestions">
+      <div class="quick-chips-wrapper" id="quick-chips">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- Error State Component -->
+    <div id="error-state" class="error-banner hidden" role="alert">
+      <div class="error-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <div class="error-text">
+        <span class="error-title">Unable to retrieve forecast</span>
+        <span class="error-message">Location not found.</span>
+      </div>
+      <button type="button" class="error-close-btn" id="error-close-btn" aria-label="Dismiss error">×</button>
+    </div>
+
+    <!-- Loading State Component -->
+    <div id="loading-state" class="loading-container hidden" role="status" aria-live="polite">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Fetching weather data for <span class="loading-city">location</span>...</p>
+      <div class="skeleton-grid">
+        <div class="skeleton-card skeleton-hero"></div>
+        <div class="skeleton-card skeleton-hourly"></div>
+        <div class="skeleton-card skeleton-daily"></div>
+      </div>
+    </div>
+
+    <!-- Main Weather Content -->
+    <main id="weather-content" class="weather-content hidden">
+      <!-- 1. Hero Weather Card -->
+      <section class="hero-weather-card">
+        <div class="hero-main-info">
+          <div class="hero-header-row">
+            <div>
+              <h1 class="hero-city" id="hero-location">--</h1>
+              <p class="hero-time" id="hero-time">--</p>
+            </div>
+            <div class="hero-condition-badge" id="hero-condition">--</div>
+          </div>
+
+          <div class="hero-temp-row">
+            <div class="hero-temp-group">
+              <span class="hero-big-temp" id="hero-temp">--</span>
+              <span class="hero-degree-unit" id="hero-unit">°C</span>
+            </div>
+
+            <div class="hero-icon-wrapper" id="hero-icon-container">
+              <!-- Dynamically imported SVG icon will appear here -->
+            </div>
+          </div>
+
+          <div class="hero-meta-row">
+            <div class="meta-item">
+              <span class="meta-label">High / Low</span>
+              <span class="meta-val">
+                <span id="hero-high">--</span> / <span id="hero-low">--</span>
+              </span>
+            </div>
+            <div class="meta-divider"></div>
+            <div class="meta-item">
+              <span class="meta-label">Feels Like</span>
+              <span class="meta-val" id="hero-feels">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today Highlights Grid -->
+        <div class="highlights-grid">
+          <!-- Humidity -->
+          <div class="highlight-card">
+            <div class="hl-header">
+              <span class="hl-title">Humidity</span>
+              <span class="hl-icon">💧</span>
+            </div>
+            <div class="hl-body">
+              <span class="hl-value" id="stat-humidity">--</span>
+            </div>
+            <span class="hl-hint">Moisture level in air</span>
+          </div>
+
+          <!-- Wind -->
+          <div class="highlight-card">
+            <div class="hl-header">
+              <span class="hl-title">Wind</span>
+              <span class="hl-icon" id="stat-wind-dir">🧭</span>
+            </div>
+            <div class="hl-body">
+              <span class="hl-value" id="stat-wind">--</span>
+            </div>
+            <span class="hl-hint">Current wind velocity</span>
+          </div>
+
+          <!-- Rain Probability -->
+          <div class="highlight-card">
+            <div class="hl-header">
+              <span class="hl-title">Precipitation</span>
+              <span class="hl-icon">🌧️</span>
+            </div>
+            <div class="hl-body">
+              <span class="hl-value" id="stat-precip-prob">--</span>
+            </div>
+            <span class="hl-hint">Amount: <strong id="stat-precip-amount">0 mm</strong></span>
+          </div>
+
+          <!-- Visibility -->
+          <div class="highlight-card">
+            <div class="hl-header">
+              <span class="hl-title">Visibility</span>
+              <span class="hl-icon">👁️</span>
+            </div>
+            <div class="hl-body">
+              <span class="hl-value" id="stat-visibility">--</span>
+            </div>
+            <span class="hl-hint">Atmospheric clarity</span>
+          </div>
+
+          <!-- Pressure -->
+          <div class="highlight-card">
+            <div class="hl-header">
+              <span class="hl-title">Air Pressure</span>
+              <span class="hl-icon">🌡️</span>
+            </div>
+            <div class="hl-body">
+              <span class="hl-value" id="stat-pressure">--</span>
+            </div>
+            <span class="hl-hint">Barometric reading</span>
+          </div>
+
+          <!-- Sun Times -->
+          <div class="highlight-card">
+            <div class="hl-header">
+              <span class="hl-title">Sun Times</span>
+              <span class="hl-icon">☀️</span>
+            </div>
+            <div class="hl-sun-row">
+              <div>
+                <span class="sun-label">Rise</span>
+                <span class="sun-val" id="stat-sunrise">--</span>
+              </div>
+              <div>
+                <span class="sun-label">Set</span>
+                <span class="sun-val" id="stat-sunset">--</span>
+              </div>
+            </div>
+            <span class="hl-hint">Clouds: <strong id="stat-clouds">--%</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Hourly Forecast Carousel -->
+      <section class="forecast-section">
+        <h2 class="section-title">24-Hour Forecast</h2>
+        <div class="hourly-scroll-container">
+          <div class="hourly-track" id="hourly-track">
+            <!-- Hourly cards rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 7-Day Forecast Section -->
+      <section class="forecast-section">
+        <h2 class="section-title">7-Day Extended Forecast</h2>
+        <div class="daily-forecast-container" id="daily-container">
+          <!-- Daily rows rendered dynamically -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 class="modal-title">WeatherPulse Preferences</h2>
+          <button type="button" id="modal-close-btn" class="modal-close" aria-label="Close settings">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="custom-api-key" class="form-label">
+              Visual Crossing API Key (Optional)
+            </label>
+            <input
+              type="text"
+              id="custom-api-key"
+              class="form-input"
+              placeholder="Leave empty for free anonymous queries"
+            />
+            <p class="form-note">
+              Visual Crossing supports up to 1,000 free anonymous queries daily without an API key. You can provide your own personal key if you hit the daily rate limit.
+            </p>
+          </div>
+
+          <div class="modal-info-box">
+            <h4>Attribution & Notes</h4>
+            <p>
+              Weather data powered by <a href="https://www.visualcrossing.com/weather-api" target="_blank" rel="noopener noreferrer">Visual Crossing Weather API</a>.
+            </p>
+            <p>
+              Built for <a href="https://www.theodinproject.com" target="_blank" rel="noopener noreferrer">The Odin Project: JavaScript Course</a>.
+            </p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="save-settings-btn" class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Footer -->
+    <footer class="app-footer">
+      <p>
+        Weather data provided by
+        <a href="https://www.visualcrossing.com/weather-api" target="_blank" rel="noopener noreferrer">
+          Visual Crossing Weather
+        </a>
+        • Crafted for The Odin Project
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
