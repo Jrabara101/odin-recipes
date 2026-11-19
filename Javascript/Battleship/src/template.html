@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header Navigation -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="radar-logo" aria-hidden="true">
+          <div class="radar-sweep"></div>
+          <div class="radar-dot"></div>
+        </div>
+        <div class="brand-text">
+          <h1 class="game-title">BATTLESHIP</h1>
+          <span class="game-subtitle">Naval Warfare Command</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="mode-selector-wrapper">
+          <label for="mode-select" class="control-label">MODE:</label>
+          <select id="mode-select" class="nav-select">
+            <option value="pvc">1-Player (vs Smart AI)</option>
+            <option value="pvp">2-Player (Pass & Play)</option>
+          </select>
+        </div>
+
+        <button id="sound-btn" class="nav-btn" title="Toggle Sound" aria-label="Toggle Sound">
+          <span class="btn-icon">🔊</span>
+          <span class="btn-text">Sound: ON</span>
+        </button>
+
+        <button id="rules-btn" class="nav-btn" title="How to Play" aria-label="Game Rules">
+          <span class="btn-icon">ℹ️</span>
+          <span class="btn-text">Rules</span>
+        </button>
+
+        <button id="restart-btn" class="nav-btn btn-danger" title="Restart Game" aria-label="Restart Game">
+          <span class="btn-icon">🔄</span>
+          <span class="btn-text">New Game</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="game-main">
+      <!-- Status Banner -->
+      <section class="status-banner" id="status-banner" aria-live="polite">
+        <div class="status-icon" id="status-icon">⚓</div>
+        <div class="status-message" id="status-message">Welcome, Commander. Deploy your fleet to initiate combat.</div>
+      </section>
+
+      <!-- SETUP SCREEN (Fleet Placement) -->
+      <section class="screen setup-screen" id="setup-screen">
+        <div class="setup-header">
+          <h2 class="setup-title" id="setup-player-title">Player 1: Place Your Ships</h2>
+          <p class="setup-hint">Drag ships from the dock onto your tactical grid, or click a ship to select it and click on the grid. Press <kbd>R</kbd> or click <strong>Rotate</strong> to change orientation.</p>
+        </div>
+
+        <div class="setup-layout">
+          <!-- Placement Grid -->
+          <div class="grid-wrapper">
+            <div class="grid-label">TACTICAL DEPLOYMENT ZONE (10x10)</div>
+            <div class="board-grid" id="setup-grid"></div>
+          </div>
+
+          <!-- Ship Dock & Controls -->
+          <div class="dock-panel">
+            <div class="dock-header">
+              <span class="dock-title">VESSEL DRY DOCK</span>
+              <button id="rotate-btn" class="action-btn btn-secondary">
+                <span class="rotate-icon">🔄</span>
+                <span>Rotate: <strong id="orientation-label">Horizontal</strong></span>
+              </button>
+            </div>
+
+            <div class="ship-dock" id="ship-dock">
+              <!-- Draggable ships rendered here -->
+            </div>
+
+            <div class="setup-actions">
+              <button id="randomize-btn" class="action-btn btn-outline">
+                <span>🎲</span> Randomize Fleet
+              </button>
+              <button id="reset-placement-btn" class="action-btn btn-outline">
+                <span>🗑️</span> Reset Grid
+              </button>
+              <button id="start-game-btn" class="action-btn btn-primary" disabled>
+                <span>⚔️</span> Confirm & Start Battle
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BATTLE SCREEN (Active Gameplay) -->
+      <section class="screen battle-screen hidden" id="battle-screen">
+        <div class="battlefield-container">
+          <!-- Friendly Fleet Board -->
+          <div class="board-container friendly-container">
+            <div class="board-header">
+              <div class="board-title-group">
+                <h3 class="board-title" id="friendly-title">FRIENDLY WATERS</h3>
+                <span class="board-badge badge-friendly">DEFENSE SECTOR</span>
+              </div>
+              <div class="fleet-health" id="friendly-fleet-status"></div>
+            </div>
+            <div class="board-grid-wrapper">
+              <div class="axis-markers-col">
+                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+              </div>
+              <div class="board-with-row-axis">
+                <div class="axis-markers-row">
+                  <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span><span>J</span>
+                </div>
+                <div class="board-grid" id="friendly-grid"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Radar / Enemy Target Board -->
+          <div class="board-container hostile-container">
+            <div class="board-header">
+              <div class="board-title-group">
+                <h3 class="board-title" id="hostile-title">HOSTILE WATERS (RADAR)</h3>
+                <span class="board-badge badge-hostile">TARGETING RADAR</span>
+              </div>
+              <div class="fleet-health" id="hostile-fleet-status"></div>
+            </div>
+            <div class="board-grid-wrapper">
+              <div class="axis-markers-col">
+                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+              </div>
+              <div class="board-with-row-axis">
+                <div class="axis-markers-row">
+                  <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span><span>J</span>
+                </div>
+                <div class="board-grid interactive-grid" id="hostile-grid"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Combat Intel / Activity Log -->
+        <section class="combat-intel-panel">
+          <div class="intel-header">
+            <div class="intel-title">
+              <span class="intel-pulse"></span>
+              COMBAT INTELLIGENCE LOG
+            </div>
+            <span class="turn-counter" id="turn-counter">TURN: 1</span>
+          </div>
+          <div class="intel-log" id="combat-log">
+            <div class="log-entry">Waiting for initial missile launch...</div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <!-- PASS DEVICE MODAL (2-Player Intermission) -->
+    <div class="modal-overlay hidden" id="pass-device-modal">
+      <div class="modal-card pass-card">
+        <div class="pass-icon">🔒</div>
+        <h2 class="modal-title">DEVICE PASS PROTOCOL</h2>
+        <p class="pass-description">Turn completed! To maintain strategic confidentiality, hand the screen to <strong id="next-player-name" class="highlight-player">Player 2</strong>.</p>
+        <div class="pass-security-warning">⚠️ Ensure the previous admiral is looking away before proceeding.</div>
+        <button id="pass-ready-btn" class="action-btn btn-primary btn-large">
+          <span>👁️</span> Ready to Command
+        </button>
+      </div>
+    </div>
+
+    <!-- GAME OVER / VICTORY MODAL -->
+    <div class="modal-overlay hidden" id="game-over-modal">
+      <div class="modal-card victory-card">
+        <div class="victory-icon" id="game-over-icon">🏆</div>
+        <h2 class="modal-title" id="game-over-title">NAVAL VICTORY!</h2>
+        <p class="modal-subtitle" id="game-over-message">Player 1 has annihilated the hostile naval forces.</p>
+        
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-label">TOTAL TURNS</span>
+            <span class="stat-value" id="stat-turns">24</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">SHOT ACCURACY</span>
+            <span class="stat-value" id="stat-accuracy">48%</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">SHIPS SURVIVED</span>
+            <span class="stat-value" id="stat-survived">3 / 5</span>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button id="play-again-btn" class="action-btn btn-primary btn-large">
+            <span>⚔️</span> Play Another Battle
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RULES MODAL -->
+    <div class="modal-overlay hidden" id="rules-modal">
+      <div class="modal-card rules-card">
+        <div class="modal-header">
+          <h2 class="modal-title">TACTICAL COMMAND BRIEFING</h2>
+          <button id="close-rules-btn" class="modal-close" aria-label="Close Rules">&times;</button>
+        </div>
+        <div class="rules-body">
+          <div class="rules-section">
+            <h3>🎯 MISSION OBJECTIVE</h3>
+            <p>Locate and destroy all 5 enemy naval vessels before your fleet is sunk.</p>
+          </div>
+          <div class="rules-section">
+            <h3>⚓ FLEET COMPOSITION</h3>
+            <ul class="fleet-rules-list">
+              <li><strong>Carrier:</strong> 5 cells</li>
+              <li><strong>Battleship:</strong> 4 cells</li>
+              <li><strong>Destroyer:</strong> 3 cells</li>
+              <li><strong>Submarine:</strong> 3 cells</li>
+              <li><strong>Patrol Boat:</strong> 2 cells</li>
+            </ul>
+          </div>
+          <div class="rules-section">
+            <h3>🎮 CONTROLS & FEATURES</h3>
+            <ul>
+              <li><strong>Placement:</strong> Drag ships from the dry dock or click to select and drop. Press <kbd>R</kbd> or click <strong>Rotate</strong> to toggle orientation.</li>
+              <li><strong>Combat:</strong> Click coordinates on the hostile radar grid to fire missiles.</li>
+              <li><strong>Markers:</strong> Red fire markers denote direct hits; white pegs denote misses into open water.</li>
+              <li><strong>Smart AI:</strong> The computer uses tactical hunt-and-target sonar to zero in on your ships when it scores a hit!</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button id="acknowledge-rules-btn" class="action-btn btn-primary">
+            Dismiss Briefing
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
