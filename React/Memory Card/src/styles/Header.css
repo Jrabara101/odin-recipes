@@ -1,0 +1,211 @@
+.game-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: rgba(13, 18, 29, 0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.game-header-inner {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0.9rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-emblem {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #212e47, #131b2c);
+  border: 1px solid var(--border-gold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 1.38rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--ink-primary);
+}
+
+.brand-tagline {
+  font-size: 0.76rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+/* Difficulty segmented control */
+.difficulty-group {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  gap: 0.15rem;
+}
+
+.difficulty-btn {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-secondary);
+  padding: 0.36rem 0.68rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.difficulty-btn:hover:not(:disabled) {
+  color: var(--ink-primary);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.difficulty-btn--active {
+  background-color: var(--gold-soft);
+  border-color: var(--border-gold);
+  color: var(--gold);
+}
+
+.difficulty-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Scoreboard */
+.scoreboard {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.score-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 0.8rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+}
+
+.score-pill--best {
+  border-color: var(--border-subtle);
+}
+
+.score-pill--record {
+  background-color: var(--gold-soft);
+  border-color: var(--border-gold);
+}
+
+.score-pill-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+}
+
+.score-pill--record .score-pill-label {
+  color: var(--gold);
+}
+
+.score-pill-value {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+  min-width: 1.4ch;
+  text-align: right;
+}
+
+.score-pill--best .score-pill-value {
+  color: var(--gold);
+}
+
+.new-deck-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-gold);
+  background: linear-gradient(180deg, rgba(232, 185, 77, 0.18), rgba(232, 185, 77, 0.08));
+  color: var(--gold);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: background-color 140ms ease, transform 140ms ease, border-color 140ms ease;
+}
+
+.new-deck-btn:hover:not(:disabled) {
+  background: rgba(232, 185, 77, 0.24);
+  transform: translateY(-1px);
+}
+
+.new-deck-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 860px) {
+  .game-header-inner {
+    padding: 0.85rem 1.25rem;
+  }
+
+  .header-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 560px) {
+  .game-header-inner {
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .difficulty-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .difficulty-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .scoreboard {
+    flex: 1;
+  }
+
+  .score-pill {
+    flex: 1;
+    justify-content: space-between;
+  }
+}

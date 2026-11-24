@@ -1,0 +1,131 @@
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.15rem;
+}
+
+.card-grid--shuffling {
+  animation: gridShufflePulse 190ms ease-out;
+}
+
+@keyframes gridShufflePulse {
+  0% {
+    opacity: 0.82;
+    transform: scale(0.992);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Loading skeletons */
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.9rem;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(165deg, var(--bg-card-top), var(--bg-card-bottom));
+  border: 1px solid var(--border-card);
+  aspect-ratio: 3 / 3.7;
+  overflow: hidden;
+  position: relative;
+}
+
+.skeleton-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.05) 45%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: skeletonShimmer 1.35s infinite;
+}
+
+@keyframes skeletonShimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-bar {
+  height: 12px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.skeleton-bar--short {
+  width: 36%;
+}
+
+.skeleton-bar--title {
+  width: 62%;
+  height: 16px;
+}
+
+.skeleton-orb {
+  width: 66%;
+  aspect-ratio: 1 / 1;
+  margin: auto;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Error panel */
+.error-panel {
+  max-width: 460px;
+  margin: 3rem auto;
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--bg-surface);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+
+.error-panel-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--ink-primary);
+  margin-bottom: 0.5rem;
+}
+
+.error-panel-message {
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.retry-btn {
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-gold);
+  background-color: var(--gold);
+  color: #111622;
+  font-weight: 700;
+  font-size: 0.875rem;
+  transition: filter 140ms ease;
+}
+
+.retry-btn:hover {
+  filter: brightness(1.06);
+}
+
+@media (max-width: 960px) {
+  .card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 620px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+}

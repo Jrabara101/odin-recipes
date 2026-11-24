@@ -1,0 +1,178 @@
+.poke-card {
+  --type-accent: #94a3b8;
+  --type-glow: rgba(148, 163, 184, 0.22);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.85rem 0.9rem 0.95rem;
+  text-align: left;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
+  background: linear-gradient(168deg, var(--bg-card-top) 0%, var(--bg-card-bottom) 100%);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.poke-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 42%,
+    var(--type-glow) 0%,
+    transparent 64%
+  );
+  opacity: 0.82;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.poke-card:hover:not(:disabled) {
+  transform: translateY(-5px);
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.poke-card:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.poke-card:active:not(:disabled) {
+  transform: translateY(-1px) scale(0.985);
+}
+
+.poke-card:disabled {
+  cursor: default;
+}
+
+/* Type color accents */
+.poke-card--fire { --type-accent: #fb923c; --type-glow: rgba(251, 146, 60, 0.26); }
+.poke-card--water { --type-accent: #38bdf8; --type-glow: rgba(56, 189, 248, 0.24); }
+.poke-card--grass { --type-accent: #4ade80; --type-glow: rgba(74, 222, 128, 0.22); }
+.poke-card--electric { --type-accent: #facc15; --type-glow: rgba(250, 204, 21, 0.24); }
+.poke-card--psychic { --type-accent: #f472b6; --type-glow: rgba(244, 114, 182, 0.24); }
+.poke-card--ghost { --type-accent: #a78bfa; --type-glow: rgba(167, 139, 250, 0.26); }
+.poke-card--dragon { --type-accent: #818cf8; --type-glow: rgba(129, 140, 248, 0.26); }
+.poke-card--dark { --type-accent: #94a3b8; --type-glow: rgba(148, 163, 184, 0.22); }
+.poke-card--ice { --type-accent: #67e8f9; --type-glow: rgba(103, 232, 249, 0.24); }
+.poke-card--fighting { --type-accent: #f87171; --type-glow: rgba(248, 113, 113, 0.24); }
+.poke-card--steel { --type-accent: #cbd5e1; --type-glow: rgba(203, 213, 225, 0.22); }
+.poke-card--fairy { --type-accent: #f9a8d4; --type-glow: rgba(249, 168, 212, 0.24); }
+.poke-card--ground { --type-accent: #e8b94d; --type-glow: rgba(232, 185, 77, 0.24); }
+.poke-card--rock { --type-accent: #d6b685; --type-glow: rgba(214, 182, 133, 0.22); }
+.poke-card--bug { --type-accent: #a3e635; --type-glow: rgba(163, 230, 53, 0.22); }
+.poke-card--poison { --type-accent: #c084fc; --type-glow: rgba(192, 132, 252, 0.24); }
+.poke-card--flying { --type-accent: #93c5fd; --type-glow: rgba(147, 197, 253, 0.22); }
+
+.poke-card-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.poke-dex-number {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  letter-spacing: 0.03em;
+}
+
+.poke-bst {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  padding: 0.1rem 0.42rem;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.poke-art-stage {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem;
+  margin: 0.2rem 0;
+}
+
+.poke-artwork {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.45));
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  user-select: none;
+  pointer-events: none;
+}
+
+.poke-card:hover:not(:disabled) .poke-artwork {
+  transform: scale(1.07);
+}
+
+.poke-card-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.poke-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.poke-type-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.poke-type-pill {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.14rem 0.48rem;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.07);
+  color: var(--ink-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.poke-type-pill--primary {
+  color: var(--type-accent);
+  border-color: color-mix(in srgb, var(--type-accent) 40%, transparent);
+  background-color: color-mix(in srgb, var(--type-accent) 12%, transparent);
+}
+
+@media (max-width: 560px) {
+  .poke-card {
+    padding: 0.7rem 0.75rem 0.8rem;
+  }
+
+  .poke-name {
+    font-size: 0.95rem;
+  }
+}

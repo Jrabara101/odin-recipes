@@ -1,0 +1,90 @@
+:root {
+  --bg-desk: #0d121d;
+  --bg-desk-glow: #182235;
+  --bg-surface: #151c2c;
+  --bg-surface-elevated: #1c263b;
+  --bg-card-top: #1d2840;
+  --bg-card-bottom: #131a29;
+
+  --ink-primary: #f5f2eb;
+  --ink-secondary: #b5bfd3;
+  --ink-muted: #7f8da8;
+
+  --border-subtle: rgba(232, 185, 77, 0.14);
+  --border-card: rgba(255, 255, 255, 0.09);
+  --border-gold: rgba(232, 185, 77, 0.45);
+
+  --gold: #e8b94d;
+  --gold-soft: rgba(232, 185, 77, 0.14);
+  --emerald: #34d399;
+  --emerald-soft: rgba(52, 211, 153, 0.14);
+  --crimson: #f87171;
+  --crimson-soft: rgba(248, 113, 113, 0.14);
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  --shadow-card: 0 10px 24px -10px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  --shadow-card-hover: 0 20px 36px -12px rgba(0, 0, 0, 0.72), 0 0 0 1px rgba(232, 185, 77, 0.45);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background-color: var(--bg-desk);
+  background-image:
+    radial-gradient(ellipse 80% 55% at 50% -10%, var(--bg-desk-glow) 0%, transparent 70%),
+    radial-gradient(circle at 85% 90%, rgba(232, 185, 77, 0.05) 0%, transparent 45%);
+  background-attachment: fixed;
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
