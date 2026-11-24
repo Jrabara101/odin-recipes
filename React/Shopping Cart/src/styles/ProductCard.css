@@ -1,0 +1,206 @@
+.product-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-xs);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.product-card-media {
+  position: relative;
+  background: var(--bg-stage);
+  border-radius: var(--radius-md);
+  height: 224px;
+  padding: 26px 22px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-card-image {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 0.28s ease;
+}
+
+.product-card:hover .product-card-image {
+  transform: scale(1.045);
+}
+
+.product-card-category {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(246, 243, 237, 0.92);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+
+.product-card-in-cart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--forest-soft);
+  color: var(--forest);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.product-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  padding: 0 4px 4px;
+}
+
+.product-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.product-card-price {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+
+.product-card-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #b7791f;
+}
+
+.product-card-rating-count {
+  color: var(--ink-muted);
+  font-weight: 400;
+}
+
+.product-card-title {
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.42;
+  color: var(--ink-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.84em;
+}
+
+.product-card-actions {
+  margin-top: auto;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Quantity Stepper */
+.quantity-stepper {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-stage);
+  overflow: hidden;
+}
+
+.stepper-btn {
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--ink-primary);
+  display: grid;
+  place-items: center;
+  transition: background-color 0.14s ease, color 0.14s ease;
+}
+
+.stepper-btn:hover:not(:disabled) {
+  background: var(--bg-subtle);
+}
+
+.stepper-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.stepper-input {
+  width: 100%;
+  height: 36px;
+  border: none;
+  border-left: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  background: transparent;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.stepper-input:focus {
+  outline: none;
+  background: rgba(200, 90, 50, 0.05);
+}
+
+/* Add To Cart button */
+.add-to-cart-btn {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--ink-primary);
+  color: var(--bg-stage);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition:
+    background-color 0.16s ease,
+    transform 0.12s ease;
+}
+
+.add-to-cart-btn:hover {
+  background: var(--accent);
+}
+
+.add-to-cart-btn:active {
+  transform: scale(0.985);
+}
+
+.add-to-cart-btn--added,
+.add-to-cart-btn--added:hover {
+  background: var(--forest);
+}
