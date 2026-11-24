@@ -1,0 +1,66 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.workspace {
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 1.75rem 2rem 3rem;
+  display: grid;
+  grid-template-columns: minmax(360px, 500px) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.editor-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.editor-intro {
+  font-size: 0.875rem;
+  color: var(--ink-secondary);
+  line-height: 1.5;
+  padding: 0 0.15rem;
+}
+
+.preview-column {
+  position: sticky;
+  top: 5.25rem;
+}
+
+@media (max-width: 1080px) {
+  .workspace {
+    grid-template-columns: 1fr;
+    max-width: 820px;
+    padding: 1.25rem 1.25rem 2.5rem;
+    gap: 1.75rem;
+  }
+
+  .preview-column {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .workspace {
+    padding: 1rem 0.85rem 2rem;
+  }
+}
+
+@media print {
+  .workspace {
+    display: block;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .preview-column {
+    position: static;
+  }
+}
